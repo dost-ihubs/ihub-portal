@@ -1,0 +1,1716 @@
+/* 
+  =========================================
+  Philippines iHubs Directory Stylesheet
+  =========================================
+  Premium custom styles featuring Outfit & Inter typography, 
+  glassmorphism, interactive SVG path transitions, and 
+  animated custom map pins.
+*/
+
+:root {
+  /* Typography */
+  --font-title: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Color Palette */
+  --color-sea: #ebf5ff;
+  --color-sea-gradient-start: #ffffff;
+  --color-sea-gradient-end: #d6eaff;
+  
+  --color-region-default: #3fa3fc;
+  --color-region-hover: #7cd31e;
+  --color-region-border: #ffffff;
+  /* Root color variables — add alongside your other --color-region-* vars */
+--color-region-card-bg: #eef2ff;
+--color-region-card-hover: #e0e7ff;
+  
+  --color-province-default-1: #8dd922;
+  --color-province-default-2: #6fb705;
+  --color-province-border: #59a502;
+  --color-province-hover: #f59e0b;
+  --color-province-active: #f59e0b;
+  
+  --color-primary-blue: #009eff;
+  --color-dark-blue: #0c4a6e;
+  --color-purple: #a855f7;
+  --color-red: #ef4444;
+  
+  /* Neutral Palette */
+  --color-bg-light: #f8fafc;
+  --color-bg-white: #ffffff;
+  --color-text-dark: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border-light: #e2e8f0;
+  
+  /* Shadow & Blur effects */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+
+  /* Layout: width of the left info panel, kept in a variable so the
+     floating map controls (legend, hover info box, etc.) can offset
+     themselves correctly regardless of screen size. */
+  --left-panel-width: clamp(550px, 24vw, 0px);
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-light);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  margin: px;
+}
+
+/* Main Layout Structure */
+#app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* Map Section (Center, flexible width — becomes the wide center column
+   because the info panel is now a normal in-flow flex item, not a floating
+   overlay anymore) */
+#map-section {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  display: flex; /* lays out .info-section-overlay (left) + #map (center) side by side */
+  background: linear-gradient(135deg, var(--color-sea-gradient-start), var(--color-sea-gradient-end));
+}
+
+#map {
+  flex: 1;
+  min-width: 0; /* allow the map to shrink/grow correctly as a flex item */
+  height: 100%;
+  background: transparent !important; /* Let ocean background show through */
+}
+
+/* Sidebar Section (Right side, takes 28% width) */
+#sidebar-section {
+  width: 350px;
+  height: calc(100% - 20px);
+  margin-top: 20px;
+  margin-right: 20px;
+  border-radius: 16px;
+  background-color: var(--color-bg-white);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 10;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Header & Controls Overlay (Floating Top Left of Map) */
+.header-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  padding: 12px 20px 12px 16px;
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+}
+
+.logo-container {
+  /* width: 50px; */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-main {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-dark-blue);
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.title-main span.ihub-text {
+  color: var(--color-primary-blue);
+}
+
+.title-sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.leaflet-right {
+  right: 20px;
+}
+/* Map Zoom Control Override Styles */
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border) !important;
+  color: var(--color-primary-blue) !important;
+  font-family: var(--font-title);
+  font-weight: 600;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 34px !important;
+  font-size: 18px !important;
+  transition: all 0.2s ease;
+}
+
+.leaflet-control-zoom-in {
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.leaflet-control-zoom-out {
+  border-radius: 0 0 8px 8px !important;
+  border-top: none !important;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background-color: var(--color-bg-white) !important;
+  color: var(--color-dark-blue) !important;
+  transform: scale(1.05);
+}
+
+/* Custom Interactive SVG Layer Styling */
+.region-path {
+  fill: var(--color-region-default);
+  fill-opacity: 0.85;
+  stroke: var(--color-region-border);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.region-path:hover {
+  fill: var(--color-region-hover);
+  fill-opacity: 0.95;
+  filter: drop-shadow(0px 4px 12px rgba(124, 211, 30, 0.3));
+}
+
+.region-path.active {
+  fill: var(--color-region-hover);
+  fill-opacity: 1;
+}
+
+.province-path {
+  fill-opacity: 0.9;
+  stroke: var(--color-province-border);
+  stroke-width: 0.75px;
+  stroke-linejoin: round;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.province-path:hover {
+  fill: var(--color-province-hover) !important;
+  fill-opacity: 1;
+}
+
+.province-path.active {
+  fill: var(--color-province-hover) !important;
+  fill-opacity: 1;
+  stroke: #ffffff;
+  stroke-width: 1.5px;
+}
+
+/* Custom Animated Map Pins (Pulsing DivIcons) */
+.custom-pin-container {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.pin-marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 4px;
+  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pin-marker::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.pin-marker.regional {
+  background-color: var(--color-purple);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.pin-marker.provincial {
+  background-color: var(--color-red);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+
+/* Pulse animation rings */
+.pin-pulse {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: rotateX(75deg);
+  bottom: 0px;
+  z-index: -1;
+}
+
+.partner-logos-overlay {
+  position: absolute;
+  display: flex;
+  top: 110px; /* clears the header-overlay's height + a small gap */
+  left: 20px;
+  z-index: 999;
+  max-width: 500px;
+  /* background: var(--glass-bg); */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  gap: 20px;
+  box-shadow: var(--glass-shadow);
+}
+
+.partner-logo-img {
+  height: 20px;
+}
+
+.partner-logo-img-lnph{
+  height: 60px;
+}
+
+.partner-logo-img-gdap{
+  height: 70px;
+}
+
+.bottom-subheader{
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+
+
+.ihub-about-overlay {
+  position: absolute;
+  top: 180px; /* clears the header-overlay's height + a small gap */
+  left: 20px;
+  z-index: 999;
+  max-width: 280px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: var(--glass-shadow);
+}
+
+.ihub-about-overlay h2 {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-dark-blue);
+  margin-bottom: 4px;
+}
+
+.ihub-about-overlay p {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.pin-pulse::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px currentColor;
+  animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  opacity: 0;
+}
+
+.pin-pulse.regional {
+  color: var(--color-purple);
+}
+
+.pin-pulse.provincial {
+  color: var(--color-red);
+}
+
+/* Pin Hover & Active Effects */
+.custom-pin-container:hover .pin-marker {
+  transform: rotate(-45deg) translate(2px, -4px) scale(1.2);
+  box-shadow: -4px 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-pin-container.active .pin-marker {
+  transform: rotate(-45deg) translate(3px, -8px) scale(1.3);
+  box-shadow: -6px 10px 12px rgba(0, 0, 0, 0.25);
+  animation: pin-bounce 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.8;
+  }
+  80%, 100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes pin-bounce {
+  0% {
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: -6px;
+  }
+}
+
+/* Map Legend (Top Right) */
+.legend-overlay {
+  position: absolute;
+  top: 10px;
+  right: 80px;
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.legend-dot.regional {
+  background-color: var(--color-purple);
+}
+
+.legend-dot.provincial {
+  background-color: var(--color-red);
+}
+
+.legend-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.legend-toggle input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--color-primary-blue);
+}
+
+/* Region Info Overlay (Bottom Left of the MAP area — offset past the left info panel) */
+.info-overlay {
+  position: absolute;
+  bottom: 100px; /* Leave space for bottom stats dashboard */
+  left: calc(var(--left-panel-width) + 20px);
+  z-index: 1000;
+  width: 400px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow-xl);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none; /* Let map events pass through when hidden */
+}
+
+.info-overlay.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 10px;
+}
+
+.info-title-group {
+  flex: 1;
+  padding-right: 12px;
+}
+
+.info-label {
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary-blue);
+  line-height: 1.1;
+}
+
+.info-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.info-badge-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  width: 60px;
+  height: 52px;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.info-badge-num {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-primary-blue);
+  line-height: 1;
+}
+
+.info-badge-txt {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.info-row {
+  display: flex;
+  line-height: 1.4;
+}
+
+.info-row-key {
+  width: 120px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.info-row-val {
+  flex: 1;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  word-break: break-word;
+}
+
+/* Bottom Stats Dashboard (Fixed at bottom of map) */
+#dashboard-section {
+  position: absolute;
+  bottom: 0;
+  left: var(--left-panel-width);
+  width: calc(100% - var(--left-panel-width));
+  height: 50px;
+  background: var(--color-bg-white);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.journey-4is {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.journey-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px 10px;
+  margin-top: 6px;
+}
+
+.journey-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.journey-vector {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.info-section-overlay .journey-desc {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.ihub-about {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ihub-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px 16px;
+  margin-top: 6px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feature-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 158, 255, 0.1);
+  color: var(--color-primary-blue);
+}
+
+.feature-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.feature-icon-alt {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.feature-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-dark-blue);
+}
+
+.stat-card {
+  flex: 1;
+  flex-direction:row;
+  height: 52px;
+  background-color: var(--color-bg-white);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.stat-value {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-primary-blue);
+}
+
+/* Sidebar Styling & Elements */
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--color-bg-white);
+}
+
+.sidebar-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-back:hover {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+}
+
+.btn-back svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Custom Search Container */
+.search-container {
+  position: relative;
+  width: 100%;
+}
+
+.imug-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.imug-title {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+  line-height: 1.2;
+}
+
+.imug-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.imug-mockup {
+  width: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+  margin-top: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Search input — icon moved to the right */
+.search-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 44px 0 18px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-light);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--color-primary-blue);
+  background-color: var(--color-bg-white);
+  box-shadow: 0 0 0 3px rgba(0, 158, 255, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  left: auto;
+  top: 10px;
+  color: var(--color-text-muted);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* Sidebar Title and Context */
+.sidebar-title {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+  line-height: 1.2;
+}
+
+/* Cards Content Container */
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Region list — single column of rounded cards */
+.region-buttons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.region-select-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 18px;
+  background: var(--color-region-card-bg);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.region-select-btn:hover {
+  background: var(--color-region-card-hover);
+  transform: translateY(-1px);
+}
+
+.region-select-btn-name {
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+}
+
+.region-select-btn-chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary-blue);
+}
+
+/* =========================================
+   Left Side Map Overlay Layer Styling
+   ========================================= */
+.info-section-overlay {
+  position: relative;
+  order: -1;
+  flex-shrink: 0;
+  width: var(--left-panel-width);
+  height: calc(100% - 20px);
+  margin-top: 20px;
+  border-radius: 25px;
+  z-index: 500;
+
+  background: var(--color-bg-white);
+  box-shadow: var(--shadow-lg);
+
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+/* Scrollbar customizations for content overlay panels */
+.info-section-overlay::-webkit-scrollbar {
+  width: 6px;
+}
+.info-section-overlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+.info-section-overlay::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+  border-radius: 10px;
+  display: none;
+}
+
+/* Typography & Hero adjustments */
+.overlay-hero-title {
+  font-family: var(--font-title);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.overlay-hero-desc {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Button UI Components inside Overlay */
+.info-section-overlay .button-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.info-section-overlay .button-group button {
+  flex: 1;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.info-section-overlay .btn-primary {
+  background-color: var(--color-primary-blue);
+  color: var(--color-bg-white);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.info-section-overlay .btn-primary:hover {
+  background-color: var(--color-dark-blue);
+  transform: translateY(-1px);
+}
+
+.info-section-overlay .btn-secondary {
+  background-color: transparent;
+  color: var(--color-dark-blue);
+  border: 1px solid var(--color-border-light);
+}
+
+.info-section-overlay .btn-secondary:hover {
+  background-color: var(--color-bg-white);
+  border-color: var(--color-primary-blue);
+}
+
+/* Sub-headers and Content Sections */
+.info-section-overlay .subheader {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-dark-blue);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.info-section-overlay p {
+  font-size: 12px;
+  color: var(--color-text-dark);
+  line-height: 1.5;
+}
+
+/* Journey Layout Selector Fix */
+.journey-4is {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Re-formatting Dashboard into a compact Grid Layer */
+.overlay-dashboard {
+  border-top: 1px solid var(--color-border-light);
+  padding-top: 16px;
+}
+
+.overlay-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.overlay-stat-grid .stat-card {
+  height: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12px;
+  background-color: var(--color-bg-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+}
+
+.overlay-stat-grid .stat-title {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.overlay-stat-grid .stat-value {
+  font-size: 22px;
+}
+
+/* iHub Cards */
+.ihub-card {
+  display: flex;
+  height: auto;
+  background-color: var(--color-bg-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: 14px;
+  padding: 12px;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  /* overflow: hidden; */
+}
+
+.ihub-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.ihub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-blue);
+}
+
+.ihub-card.active {
+  border-color: var(--color-primary-blue);
+  background-color: rgba(0, 158, 255, 0.02);
+  box-shadow: var(--shadow-md);
+}
+
+.ihub-card.active::before {
+  background-color: var(--color-primary-blue);
+}
+
+.ihub-card-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ihub-card-title {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-dark-blue);
+  line-height: 1.2;
+}
+
+.ihub-card-inst {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.ihub-card-addr {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+.ihub-card-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-top: 8px;
+}
+
+.ihub-card-badge.regional {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: var(--color-purple);
+}
+
+.ihub-card-badge.provincial {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--color-red);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-light);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column; /* navbar on top, app-container below */
+}
+
+.top-navbar {
+  flex-shrink: 0;
+  height: 72px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  /* background-color: var(--color-bg-white); */
+  border-bottom: 1px solid var(--color-border-light);
+  z-index: 2000;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  width: auto;
+  height: 55px;
+  /* object-fit: contain; */
+}
+
+.navbar-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-title {
+  font-family: var(--font-title);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-primary-blue);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navbar-link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navbar-link:hover {
+  color: var(--color-primary-blue);
+}
+
+.navbar-link.active {
+  color: var(--color-primary-blue);
+  font-weight: 700;
+}
+
+#app-container {
+  display: flex;
+  width: 100vw;
+  flex: 1;       /* was: height: 100vh — now fills whatever's left below the navbar */
+  min-height: 0; /* required so map/sidebar children size correctly inside a flex parent */
+  position: relative;
+}
+
+.ihub-card-img {
+  width: 90px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-sm);
+  background-color: #f1f5f9;
+}
+
+/* Config / Database Floating Icon */
+.db-config-trigger {
+  position: absolute;
+  top: 20px;
+  right: 140px; /* Positioned left of legend overlay */
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  /* display: flex; */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--glass-shadow);
+  color: var(--color-primary-blue);
+  transition: all 0.2s ease;
+}
+
+.db-config-trigger:hover {
+  background-color: var(--color-bg-white);
+  color: var(--color-dark-blue);
+  transform: scale(1.05);
+}
+
+.db-config-trigger svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Database Settings Slide-Over Drawer */
+.config-drawer {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 400px;
+  height: 100vh;
+  background-color: var(--color-bg-white);
+  z-index: 10000;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--color-border-light);
+}
+
+.config-drawer.open {
+  right: 0;
+}
+
+.config-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.config-title {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-dark-blue);
+}
+
+.btn-close-config {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.btn-close-config:hover {
+  background-color: var(--color-bg-light);
+}
+
+.config-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.config-description {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.form-input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 158, 255, 0.1);
+}
+
+.btn-save-config {
+  background-color: var(--color-primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-save-config:hover {
+  background-color: #0088dd;
+}
+
+.config-status {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.config-status.success {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.config-status.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.config-status.warning {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: #854d0e;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+/* Database Source Badge on Header */
+.db-source-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+  width: fit-content;
+  display: none;
+}
+
+.db-source-badge.live {
+  background-color: rgba(34, 197, 94, 0.15);
+  color: #166534;
+}
+
+.db-source-badge.mock {
+  background-color: rgba(234, 179, 8, 0.15);
+  color: #854d0e;
+}
+
+/* Empty State / Loading State styling */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.empty-state-svg {
+  width: 48px;
+  height: 48px;
+  color: var(--color-border-light);
+  margin-bottom: 12px;
+}
+
+.empty-state-title {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 750;
+  color: var(--color-dark-blue);
+  margin-bottom: 4px;
+}
+
+.empty-state-desc {
+  font-size: 12px;
+  max-width: 240px;
+}
+
+/* Backdrop Filter for Slide-over config menu */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  #sidebar-section {
+    width: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  #app-container {
+    flex-direction: column-reverse;
+  }
+  
+  #sidebar-section {
+    width: 100%;
+    height: 40%;
+    border-left: none;
+    border-top: 1px solid var(--color-border-light);
+  }
+  
+  #map-section {
+    height: 60%;
+    flex-direction: column; /* stack info panel above the map on mobile */
+  }
+
+.info-section-overlay {
+  position: relative;
+  order: -1;
+  flex-shrink: 0;
+  width: var(--left-panel-width);
+  height: calc(100% - 20px);
+  margin-top: 20px;
+  border-radius: 16px;
+  z-index: 500;
+
+  background: var(--color-bg-white);
+  box-shadow: var(--shadow-lg);
+
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+  .header-overlay {
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+  }
+  
+  .title-main {
+    font-size: 18px;
+  }
+  
+  .legend-overlay {
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
+  }
+  
+  .db-config-trigger {
+    top: 10px;
+    right: 120px;
+  }
+  
+  .info-overlay {
+    width: calc(100% - 20px);
+    left: 10px;
+    bottom: 90px;
+  }
+  
+/* #dashboard-section {
+  position: absolute;
+  bottom: 0;
+  left: var(--left-panel-width);
+  width: calc(100% - var(--left-panel-width));
+  height: 50px;
+  background: var(--color-bg-white);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+} */
+  
+  .stat-card {
+    padding: 0 10px;
+    height: 44px;
+  }
+  
+  .stat-title {
+    font-size: 11px;
+  }
+  
+  .stat-value {
+    font-size: 20px;
+  }
+}
+
+/* iHub Detail Overlay — floating glass card, same treatment as .info-overlay */
+.ihub-modal-overlay {
+  position: absolute;
+  bottom: 100px; /* leave space for bottom stats dashboard, same as .info-overlay */
+  right: 20px;
+  z-index: 1000;
+  width: 360px;
+  max-height: calc(100vh - 220px);
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
+  overflow-y: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none; /* let map events pass through when hidden */
+}
+
+.ihub-modal-overlay.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ihub-modal {
+  position: relative;
+}
+
+.ihub-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-bg-white);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-dark-blue);
+  box-shadow: var(--shadow-sm);
+  z-index: 1;
+}
+
+.ihub-modal-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0;
+  background-color: #f1f5f9;
+}
+
+.ihub-modal-body {
+  padding: 16px 20px 20px;
+}
+
+.ihub-modal-title {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-primary-blue);
+  margin: 0 0 4px;
+  line-height: 1.1;
+}
+
+.ihub-modal-address {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-dark-blue);
+  margin: 0 0 14px;
+}
+
+.ihub-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ihub-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ihub-modal-field.full {
+  margin-bottom: 10px;
+}
+
+.ihub-modal-field-label {
+  font-size: 11px;
+  font-weight: 600; 
+  color: var(--color-text-muted);
+}
+
+.ihub-modal-field-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+}
+
+.ihub-modal-divider {
+  border: none;
+  border-top: 1px solid var(--color-border-light);
+  margin: 10px 0;
+}

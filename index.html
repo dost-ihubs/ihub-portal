@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive directory and geographic map of all DOST Innovation Hubs (iHubs) in the Philippines, dynamically powered by Google Sheets.">
+  <title>DOST Innovation Hubs (iHubs) Portal</title>
+
+  <!-- Google Fonts: Outfit (Titles) and Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;750;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Map Stylesheet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+  <header id="top-navbar" class="top-navbar">
+    <div class="navbar-brand">
+      <img src="assets/iHubLogo.png" alt="iHub Logo" class="navbar-logo" />
+      <div class="navbar-title-group">
+        <h1 class="navbar-title"><span class="ihub-text">PORTAL</span></h1>
+        <div id="db-source-badge" class="db-source-badge mock">Demo Offline Mode</div>
+      </div>
+    </div>
+
+    <nav class="navbar-links" aria-label="Main Navigation">
+      <a href="#" class="navbar-link">About iHub</a>
+      <a href="#" class="navbar-link">How It Works</a>
+      <a href="#" class="navbar-link active">Find an iHub</a>
+      <a href="#" class="navbar-link">Programs</a>
+      <a href="#" class="navbar-link">Resources</a>
+      <a href="#" class="navbar-link">Contact</a>
+    </nav>
+  </header>
+
+  <div id="app-container">
+    
+    <!-- Map Canvas Area (Left side) -->
+    <main id="map-section" aria-label="Interactive Map of the Philippines">
+      
+      <!-- Leaflet map container -->
+      <div id="map"></div>
+
+      <div class="info-section-overlay">
+        <div class="hero-section">
+          <h1 class="overlay-hero-title">Innovation Starts Here</h1>
+          <p class="overlay-hero-desc">The DOST Innovation Hub (iHub) plays a critical role in the overall development and 
+            success of startups, strengthening the Philippine innovation ecosystem from the 
+            ground up.</p>
+          <div class="button-group">
+            <button class="btn-primary">Find an iHub near you</button>
+            <button class="btn-secondary">Learn more about iHub</button>
+          </div>
+        </div> 
+
+        <div class="ihub-about">
+          <h1 class="imug-title">What is an iHub?</h1>
+          
+          <p>The iHub or Innovation Hub is a space where individuals and groups can meet, interact, develop new ideas, and find solutions that address economic and social problems and be ready to become innovative startups. It is a nationwide initiative of the Department of Science and Technology (DOST) to establish iHubs in every province in the Philippines.</p>
+          <!-- <div class="ihub-features">
+            <div class="feature-item">
+              <span class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </span>
+              <span class="feature-label">Mentorship</span>
+            </div>
+
+            <div class="feature-item">
+              <span class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+              </span>
+              <span class="feature-label">Training &amp; Programs</span>
+            </div>
+
+            <div class="feature-item">
+              <span class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+              </span>
+              <span class="feature-label">Facilities &amp; Tools</span>
+            </div>
+
+            <div class="feature-item">
+              <span class="feature-icon feature-icon-alt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2z"></path>
+                  <path d="M13 7h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-4"></path>
+                  <path d="m7 12 3 3 3-3"></path>
+                </svg>
+              </span>
+              <span class="feature-label">Collaboration</span>
+            </div>
+
+            <div class="feature-item">
+              <span class="feature-icon feature-icon-alt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M9.5 15.5h2.25a1.75 1.75 0 0 0 0-3.5h-1a1.75 1.75 0 0 1 0-3.5h2.25"></path>
+                  <path d="M12 7v1"></path>
+                  <path d="M12 16v1"></path>
+                </svg>
+              </span>
+              <span class="feature-label">Funding Opportunities</span>
+            </div>
+
+            <div class="feature-item">
+              <span class="feature-icon feature-icon-alt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                  <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                  <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+                  <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                </svg>
+              </span>
+              <span class="feature-label">Startup Support</span>
+            </div>
+          </div> -->
+        </div>
+
+  <div class="journey-4is">
+    <!-- <strong class="subheader">The 4Is Journey</strong> -->
+    <h1 class="imug-title">The 4Is Journey</h1>
+    <h1 class="imug-subtitle">Our simple path to help turn your ideas into impact.</h1>
+
+  <div class="journey-steps">
+
+    <div class="journey-step">
+      <img src="assets/inspire.svg" alt="Inspire: Discover ideas, opportunities, and technologies" class="journey-vector">
+      <p class="journey-desc">Discover ideas, opportunities, and technologies.</p>
+    </div>
+
+    <div class="journey-step">
+      <img src="assets/interact.svg" alt="Interact: Connect with mentors, experts, and innovators" class="journey-vector">
+      <p class="journey-desc">Connect with mentors, experts, and innovators.</p>
+    </div>
+
+    <div class="journey-step">
+      <img src="assets/ideate.svg" alt="Ideate: Develop and improve your innovation" class="journey-vector">
+      <p class="journey-desc">Develop and improve your innovation.</p>
+    </div>
+
+    <div class="journey-step">
+      <img src="assets/initiate.svg" alt="Initiate: Launch your project, startup, or technology" class="journey-vector">
+      <p class="journey-desc">Launch your project, startup, or technology.</p>
+    </div>
+
+  </div></div>
+
+        <section class="overlay-dashboard" aria-label="National Statistics Dashboard">
+          <h1 class="imug-title">Current iHub Network</h1>
+          <strong class="subheader"></strong>
+          <div class="overlay-stat-grid">
+            <div class="stat-card">
+              <span class="stat-title">Total iHubs</span>
+              <span id="stat-total-hubs" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Regional</span>
+              <span id="stat-regional-hubs" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Provincial</span>
+              <span id="stat-provincial-hubs" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-title">Regions</span>
+              <span id="stat-regions-covered" class="stat-value">0</span>
+            </div>
+          </div>
+          
+        </section>
+
+         <section class="imug-section" aria-label="iMug Collection">
+          <h1 class="imug-title">Collect your iMugs now!</h1>
+          <h1 class="imug-subtitle">Experience Innovation in Every Region. Visit Our iHubs Nationwide.</h1>
+          <strong class="subheader"> </strong>
+          <img src="assets/iMugs.jpg" alt="iMug" class="imug-mockup">
+        </section>
+  </div>
+
+                <!-- Partnership logo -->
+      <section id="dashboard-section" aria-label="National Statistics Dashboard">
+        <p class="bottom-subheader">Powered by a growing ecosystem </p>
+        <img src="assets/wadwhaniLogo.png" alt="Partner 1" class="partner-logo-img">
+        <img src="assets/pcci_logo.webp" alt="Partner 2" class="partner-logo-img">
+        <img src="assets/devcon_logo.png" alt="Partner 3" class="partner-logo-img">
+        <img src="assets/leaveanestlogo.webp" alt="Partner 4" class="partner-logo-img-lnph">
+        <img src="assets/gdap_logo.webp" alt="Partner 5" class="partner-logo-img-gdap">
+      </section>
+
+
+      <!-- Floating Map Pins Legend (Top Right) -->
+      <div class="legend-overlay" aria-label="Map Legend">
+        <div class="legend-item">
+          <span class="legend-dot regional"></span>
+          <span>Regional iHub</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot provincial"></span>
+          <span>Provincial iHub</span>
+        </div>
+        <label class="legend-toggle">
+          <input type="checkbox" id="chk-show-all-pins">
+          <span>Show all pins nationwide</span>
+        </label>
+      </div>
+
+      <!-- Floating Config settings trigger (Gear icon, top-right adjacent to legend) -->
+      <button id="btn-config-open" class="db-config-trigger" title="Database Configuration" aria-label="Open Database Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+
+      <!-- Glassmorphic Hover / Selection Info Overlay (Bottom Left of Map) -->
+      <div id="info-overlay" class="info-overlay" aria-live="polite">
+        <div class="info-header">
+          <div class="info-title-group">
+            <div id="info-label" class="info-label">Region VI</div>
+            <!-- <div class="info-subtitle">Western Visayas</div> -->
+          </div>
+          <div class="info-badge-count">
+            <span id="info-badge-num" class="info-badge-num">0</span>
+            <span class="info-badge-txt">iHubs</span>
+          </div>
+        </div>
+        <div id="info-details" class="info-details">
+          <div id="info-details-rows">
+            <!-- Dynamic properties rows will be populated here -->
+          </div>
+        </div>
+      </div>
+
+
+
+        <!-- iHub Modal -->
+          <div id="ihub-modal-overlay" class="ihub-modal-overlay">
+          <div class="ihub-modal">
+            <button id="ihub-modal-close" class="ihub-modal-close" aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <img id="ihub-modal-img" class="ihub-modal-img" src="" alt="">
+            <div class="ihub-modal-body">
+              <h2 id="ihub-modal-title" class="ihub-modal-title"></h2>
+              <p id="ihub-modal-address" class="ihub-modal-address"></p>
+
+              <div class="ihub-modal-grid">
+                <div class="ihub-modal-field">
+                  <span class="ihub-modal-field-label">Launch Date</span>
+                  <span id="ihub-modal-launch-date" class="ihub-modal-field-value"></span>
+                </div>
+                <div class="ihub-modal-field">
+                  <span class="ihub-modal-field-label">Provincial Focal Person</span>
+                  <span id="ihub-modal-focal" class="ihub-modal-field-value"></span>
+                </div>
+                <div class="ihub-modal-field">
+                  <span class="ihub-modal-field-label">Contact Number</span>
+                  <span id="ihub-modal-contact" class="ihub-modal-field-value"></span>
+                </div>
+                <div class="ihub-modal-field">
+                  <span class="ihub-modal-field-label">Email Address</span>
+                  <span id="ihub-modal-email" class="ihub-modal-field-value"></span>
+                </div>
+              </div>
+
+              <hr class="ihub-modal-divider">
+
+              <div class="ihub-modal-field full">
+                <span class="ihub-modal-field-label">Internet Connectivity Status</span>
+                <span id="ihub-modal-connectivity" class="ihub-modal-field-value"></span>
+              </div>
+              <div class="ihub-modal-field full">
+                <span class="ihub-modal-field-label">Internet Service Provider</span>
+                <span id="ihub-modal-isp" class="ihub-modal-field-value"></span>
+              </div>
+              <div class="ihub-modal-field full">
+                <span class="ihub-modal-field-label">ICT-related assistance needed</span>
+                <span id="ihub-modal-ict" class="ihub-modal-field-value"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </main>
+
+    <!-- Side Panel Directory Navigation (Right side) -->
+    <aside id="sidebar-section" aria-label="iHubs Directory Listings">
+      
+      <div class="sidebar-header">
+        <div class="sidebar-nav">
+          <button id="btn-back" class="btn-back" title="Go Back to National Map" aria-label="Back to National Map" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <h2 id="sidebar-title" class="sidebar-title">Find an iHub near you</h2>
+        </div>
+
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="search-input" class="search-input" type="search" placeholder="Search for an iHub, province..." aria-label="Search Innovation Hubs">
+        </div>
+      </div>
+
+      <!-- Directory Cards Listings -->
+      <div id="sidebar-content" class="sidebar-content">
+        <!-- Dynamic iHub cards populated here -->
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Backdrop Filter for Slide-over -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+
+  <!-- Database Configuration Drawer (Slide-over panel) -->
+  <div id="config-drawer" class="config-drawer" role="dialog" aria-modal="true" aria-labelledby="config-title">
+    <div class="config-header">
+      <h3 id="config-title" class="config-title">Database Settings</h3>
+      <button id="btn-config-close" class="btn-close-config" aria-label="Close Settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="config-content">
+      <p class="config-description">
+        Sync this directory with your own Google Sheet. The sheet must contain a <strong>"iHubs"</strong> tab and a <strong>"Regions"</strong> tab, and must be published to the web.
+      </p>
+
+      <form id="config-form" class="config-form">
+        <div class="form-group">
+          <label for="txt-sheet-id" class="form-label">Google Sheet ID</label>
+          <input id="txt-sheet-id" class="form-input" type="text" placeholder="e.g. 1cT61L0U86W3q4k1bK7cK3-..." required>
+        </div>
+        <button type="submit" class="btn-save-config">Sync & Save Settings</button>
+      </form>
+
+      <div id="config-status" class="config-status" style="display: none;"></div>
+
+      <div style="font-size: 12px; border-top: 1px solid var(--color-border-light); padding-top: 14px; color: var(--color-text-muted);">
+        <p style="font-weight: 700; color: var(--color-text-dark); margin-bottom: 4px;">Setup Guidelines:</p>
+        <ol style="margin-left: 16px; display: flex; flex-direction: column; gap: 4px; line-height: 1.4;">
+          <li>Create a copy of the <a href="https://docs.google.com/spreadsheets/d/1X5X5lD6oWwLz6V_O5HkM5pX6H87_yR8_h5GjG90p4xI" target="_blank" style="color: var(--color-primary-blue);">iHub Template Spreadsheet</a>.</li>
+          <li>In your Google Sheet, click <strong>File > Share > Publish to web</strong>.</li>
+          <li>Set it to publish the "Entire Document" as a Web Page.</li>
+          <li>Copy the Spreadsheet ID from the URL and paste it above.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Leaflet Map JS Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- PapaParse CSV Parser JS Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- Fallback Offline Mock Data Source -->
+  <script src="mockData.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script> -->
+  <script src="app.js"></script>
+
+</body>
+</html>
