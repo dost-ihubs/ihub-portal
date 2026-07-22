@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive directory and geographic map of all DOST Innovation Hubs (iHubs) in the Philippines.">
+  <title>DOST Innovation Hubs (iHubs) Portal</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Map Stylesheet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <link rel="icon" type="image/png" href="/assets/favicon-B6mZ9StH.png">
+  <script type="module" crossorigin src="/assets/index-D4MX7mhz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CSzT6Llr.css">
+</head>
+<body class="h-full flex flex-col bg-slate-50 text-slate-800 font-body antialiased selection:bg-brand-blue selection:text-white">
+
+  <!-- Top Navigation Bar -->
+  <header id="top-navbar" class="sticky top-0 z-30 flex items-center justify-between px-6 py-3 bg-brand-dark/95 backdrop-blur-md text-white shadow-md border-b border-white/10">
+    <div class="flex items-center gap-3">
+      <img src="/assets/iHubLogo-B29xOxnn.png" alt="iHub Logo" class="h-9 w-auto object-contain" />
+      <div class="flex items-center gap-3">
+        <h1 class="font-title text-xl font-black tracking-tight text-white">PORTAL</h1>
+        <div id="db-source-badge" class="db-source-badge mock px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">Demo Offline Mode</div>
+      </div>
+    </div>
+
+    <nav class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-200" aria-label="Main Navigation">
+      <a href="#" class="hover:text-white transition-colors">About iHub</a>
+      <a href="#" class="hover:text-white transition-colors">How It Works</a>
+      <a href="#" class="text-white font-semibold border-b-2 border-brand-accent pb-0.5">Find an iHub</a>
+      <a href="#" class="hover:text-white transition-colors">Programs</a>
+      <a href="#" class="hover:text-white transition-colors">Resources</a>
+      <a href="#" class="hover:text-white transition-colors">Contact</a>
+    </nav>
+  </header>
+
+  <!-- App Main Container -->
+  <div id="app-container" class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+    
+    <!-- Map Canvas Area (Left side) -->
+    <main id="map-section" class="flex-1 relative bg-slate-100 flex flex-col min-h-[450px] lg:min-h-0" aria-label="Interactive Map of the Philippines">
+      
+      <!-- Leaflet map container -->
+      <div id="map" class="absolute inset-0 z-0"></div>
+
+      <!-- Info Section Overlay over Map -->
+      <div class="info-section-overlay absolute top-4 left-4 z-10 max-w-sm pointer-events-none flex flex-col gap-3">
+        
+        <!-- Hero card -->
+        <div class="hero-section pointer-events-auto bg-slate-900/85 backdrop-blur-md p-5 rounded-2xl shadow-glass border border-white/15 text-white">
+          <h1 class="font-title text-2xl font-extrabold tracking-tight text-white mb-2 leading-tight">Innovation Starts Here</h1>
+          <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            The DOST Innovation Hub (iHub) plays a critical role in the overall development and success of startups, strengthening the Philippine innovation ecosystem from the ground up.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button class="px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-blue hover:bg-brand-hover text-white shadow-md transition-all">Find an iHub near you</button>
+            <button class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all">Learn more</button>
+          </div>
+        </div> 
+
+        <!-- Journey 4Is Step Card -->
+        <div class="journey-4is pointer-events-auto bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-card border border-slate-200/80">
+          <h2 class="font-title text-sm font-extrabold text-slate-900 mb-0.5">The 4Is Journey</h2>
+          <p class="text-[11px] text-slate-500 mb-3">Our simple path to help turn your ideas into impact.</p>
+
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="flex flex-col items-center">
+              <img src="/assets/inspire-4GMq4AMX.svg" alt="Inspire" class="w-8 h-8 mb-1" />
+              <span class="text-[10px] font-semibold text-slate-700">Inspire</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <img src="/assets/interact-OzrMQ-WZ.svg" alt="Interact" class="w-8 h-8 mb-1" />
+              <span class="text-[10px] font-semibold text-slate-700">Interact</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <img src="/assets/ideate-D066MWd8.svg" alt="Ideate" class="w-8 h-8 mb-1" />
+              <span class="text-[10px] font-semibold text-slate-700">Ideate</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <img src="/assets/initiate-DB30YimI.svg" alt="Initiate" class="w-8 h-8 mb-1" />
+              <span class="text-[10px] font-semibold text-slate-700">Initiate</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Stats Card -->
+        <section class="overlay-dashboard pointer-events-auto bg-brand-dark/90 backdrop-blur-md p-4 rounded-2xl shadow-glass border border-white/10 text-white" aria-label="National Statistics Dashboard">
+          <h2 class="font-title text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Current iHub Network</h2>
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="bg-white/10 p-2 rounded-xl border border-white/10">
+              <span class="block text-[10px] text-slate-300 font-medium">Total</span>
+              <span id="stat-total-hubs" class="font-title text-base font-black text-white">0</span>
+            </div>
+            <div class="bg-white/10 p-2 rounded-xl border border-white/10">
+              <span class="block text-[10px] text-slate-300 font-medium">Regional</span>
+              <span id="stat-regional-hubs" class="font-title text-base font-black text-brand-blue">0</span>
+            </div>
+            <div class="bg-white/10 p-2 rounded-xl border border-white/10">
+              <span class="block text-[10px] text-slate-300 font-medium">Provincial</span>
+              <span id="stat-provincial-hubs" class="font-title text-base font-black text-emerald-400">0</span>
+            </div>
+            <div class="bg-white/10 p-2 rounded-xl border border-white/10">
+              <span class="block text-[10px] text-slate-300 font-medium">Regions</span>
+              <span id="stat-regions-covered" class="font-title text-base font-black text-amber-300">0</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Map Legend Overlay (Top Right) -->
+      <div class="legend-overlay absolute top-4 right-16 z-10 bg-white/90 backdrop-blur-md px-3.5 py-2.5 rounded-2xl shadow-card border border-slate-200 flex flex-col gap-1.5 text-xs font-semibold text-slate-700" aria-label="Map Legend">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-brand-blue inline-block ring-2 ring-brand-blue/30"></span>
+          <span>Regional iHub</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block ring-2 ring-emerald-500/30"></span>
+          <span>Provincial iHub</span>
+        </div>
+        <label class="flex items-center gap-2 pt-1 border-t border-slate-200/80 cursor-pointer font-normal text-[11px] text-slate-600">
+          <input type="checkbox" id="chk-show-all-pins" class="rounded border-slate-300 text-brand-blue focus:ring-brand-blue">
+          <span>Show all pins nationwide</span>
+        </label>
+      </div>
+
+      <!-- Settings Trigger Button (Top Right) -->
+      <button id="btn-config-open" class="db-config-trigger absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center bg-white/90 hover:bg-white text-slate-700 hover:text-brand-blue backdrop-blur-md rounded-full shadow-card border border-slate-200 transition-all" title="Database Configuration" aria-label="Open Database Settings">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+
+      <!-- Glassmorphic Hover / Selection Info Overlay (Bottom Left of Map) -->
+      <div id="info-overlay" class="info-overlay absolute bottom-4 left-4 z-10 w-72 bg-brand-dark/90 backdrop-blur-md p-4 rounded-2xl shadow-glass border border-white/15 text-white" aria-live="polite">
+        <div class="flex items-center justify-between mb-2 pb-2 border-b border-white/15">
+          <div id="info-label" class="font-title text-base font-extrabold text-white">Region VI</div>
+          <div class="px-2.5 py-0.5 rounded-full bg-brand-blue/30 border border-brand-blue/50 flex items-center gap-1">
+            <span id="info-badge-num" class="font-title text-sm font-bold text-white">0</span>
+            <span class="text-[10px] uppercase font-semibold text-slate-300">iHubs</span>
+          </div>
+        </div>
+        <div id="info-details" class="text-xs space-y-1">
+          <div id="info-details-rows"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Side Panel Directory Navigation (Right side) -->
+    <aside id="sidebar-section" class="w-full lg:w-96 bg-white border-l border-slate-200/80 flex flex-col h-full shadow-lg z-10" aria-label="iHubs Directory Listings">
+      
+      <div class="sidebar-header p-4 border-b border-slate-200/80 bg-slate-50/50">
+        <div class="flex items-center gap-2 mb-3">
+          <button id="btn-back" class="btn-back w-8 h-8 items-center justify-center bg-white hover:bg-slate-100 text-slate-600 rounded-lg border border-slate-200 transition-colors" title="Go Back to National Map" aria-label="Back to National Map" style="display: none;">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <h2 id="sidebar-title" class="font-title text-lg font-extrabold text-slate-800 tracking-tight">Find an iHub near you</h2>
+        </div>
+
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="search-input" class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all" type="search" placeholder="Search for an iHub, province..." aria-label="Search Innovation Hubs">
+        </div>
+      </div>
+
+      <!-- Directory Cards Listings -->
+      <div id="sidebar-content" class="flex-1 p-4 overflow-y-auto space-y-3">
+        <!-- Dynamic iHub cards populated here -->
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Backdrop Filter for Slide-over -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+
+  <!-- Database Configuration Drawer (Slide-over panel) -->
+  <div id="config-drawer" class="config-drawer" role="dialog" aria-modal="true" aria-labelledby="config-title">
+    <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+      <h3 id="config-title" class="font-title text-lg font-bold text-slate-800">Database Settings</h3>
+      <button id="btn-config-close" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/60 transition-colors" aria-label="Close Settings">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="p-5 space-y-5 flex-1 overflow-y-auto">
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Sync this directory with your own Google Sheet. The sheet must contain an <strong class="text-slate-800">"iHubs"</strong> tab and a <strong class="text-slate-800">"Regions"</strong> tab, and must be published to the web.
+      </p>
+
+      <form id="config-form" class="space-y-4">
+        <div>
+          <label for="txt-sheet-id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Google Sheet ID</label>
+          <input id="txt-sheet-id" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20" type="text" placeholder="e.g. 1cT61L0U86W3q4k1bK7cK3-..." required>
+        </div>
+        <button type="submit" class="w-full py-2.5 px-4 bg-brand-blue hover:bg-brand-hover text-white text-xs font-bold rounded-xl shadow-md transition-all">Sync & Save Settings</button>
+      </form>
+
+      <div id="config-status" class="config-status p-3 rounded-xl text-xs font-medium" style="display: none;"></div>
+
+      <div class="pt-4 border-t border-slate-200 text-xs text-slate-500 space-y-2">
+        <p class="font-bold text-slate-800">Setup Guidelines:</p>
+        <ol class="list-decimal pl-4 space-y-1 leading-relaxed">
+          <li>Create a copy of the <a href="https://docs.google.com/spreadsheets/d/1X5X5lD6oWwLz6V_O5HkM5pX6H87_yR8_h5GjG90p4xI" target="_blank" class="text-brand-blue hover:underline font-semibold">iHub Template Spreadsheet</a>.</li>
+          <li>In your Google Sheet, click <strong>File > Share > Publish to web</strong>.</li>
+          <li>Set it to publish the "Entire Document" as a Web Page.</li>
+          <li>Copy the Spreadsheet ID from the URL and paste it above.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- iHub Modal -->
+  <div id="ihub-modal-overlay" class="ihub-modal-overlay">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative transform transition-all duration-300 border border-slate-100">
+      <button id="ihub-modal-close" class="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-slate-900/60 hover:bg-slate-900 text-white rounded-full transition-colors" aria-label="Close">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <img id="ihub-modal-img" class="w-full h-48 object-cover" src="" alt="">
+      <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+        <div>
+          <h2 id="ihub-modal-title" class="font-title text-xl font-black text-slate-900 leading-snug"></h2>
+          <p id="ihub-modal-address" class="text-xs text-slate-500 mt-1"></p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100 text-xs">
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Launch Date</span>
+            <span id="ihub-modal-launch-date" class="font-semibold text-slate-800"></span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Focal Person</span>
+            <span id="ihub-modal-focal" class="font-semibold text-slate-800"></span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact Number</span>
+            <span id="ihub-modal-contact" class="font-semibold text-slate-800"></span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Email Address</span>
+            <span id="ihub-modal-email" class="font-semibold text-slate-800 truncate block"></span>
+          </div>
+        </div>
+
+        <hr class="border-slate-100">
+
+        <div class="space-y-2 text-xs">
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Internet Connectivity Status</span>
+            <span id="ihub-modal-connectivity" class="font-semibold text-slate-800"></span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Internet Service Provider</span>
+            <span id="ihub-modal-isp" class="font-semibold text-slate-800"></span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">ICT-related assistance needed</span>
+            <span id="ihub-modal-ict" class="font-semibold text-slate-800"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vite entry module -->
+</body>
+</html>

@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-blue: #0072bc;
+    --color-dark-blue: #002f6c;
+    --color-region-default: #3fa3fc;
+    --color-region-hover: #7cd31e;
+    --color-region-border: #ffffff;
+    --color-province-default-1: #8dd922;
+    --color-province-default-2: #6fb705;
+    --color-province-border: #ffffff;
+  }
+
+  body {
+    @apply font-body text-slate-800 bg-slate-100 antialiased overflow-x-hidden;
+  }
+}
+
+/* Custom Leaflet Map Container & Layers */
+#map {
+  @apply w-full h-full bg-slate-100 outline-none;
+}
+
+.region-path {
+  transition: fill 0.2s ease, fill-opacity 0.2s ease, stroke 0.2s ease;
+  cursor: pointer;
+}
+
+.province-path {
+  transition: fill 0.2s ease, fill-opacity 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease;
+  cursor: pointer;
+}
+
+#db-source-badge {
+  display: none !important;
+}
+
+/* Teardrop Leaflet Pins */
+.custom-pin-container {
+  position: relative;
+  width: 28px;
+  height: 28px;
+}
+
+.pin-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50% 50% 50% 0;
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  border: 2px solid #ffffff;
+  z-index: 2;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pin-marker.regional {
+  background-color: #a855f7;
+}
+
+.pin-marker.provincial {
+  background-color: #ef4444;
+}
+
+.custom-pin-container:hover .pin-marker,
+.custom-pin-container.active .pin-marker {
+  transform: rotate(-45deg) scale(1.25);
+  box-shadow: 0 6px 16px rgba(168, 85, 247, 0.4);
+}
+
+.pin-pulse {
+  position: absolute;
+  top: 10px;
+  left: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.75;
+  animation: pulse-ring 2s infinite ease-out;
+}
+
+.pin-pulse.regional {
+  background-color: rgba(168, 85, 247, 0.5);
+}
+
+.pin-pulse.provincial {
+  background-color: rgba(239, 68, 68, 0.5);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Info Overlay Glassmorphic Panel */
+.info-overlay {
+  @apply opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2;
+}
+
+.info-overlay.visible {
+  @apply opacity-100 pointer-events-auto translate-y-0;
+}
+
+/* Modal Overlay */
+.ihub-modal-overlay {
+  @apply fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300;
+}
+
+.ihub-modal-overlay.visible {
+  @apply opacity-100 pointer-events-auto;
+}
+
+/* Drawer Slide-over */
+.config-drawer {
+  @apply fixed top-0 right-0 z-50 w-full max-w-md h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col;
+}
+
+.config-drawer.open {
+  @apply translate-x-0;
+}
+
+.drawer-backdrop {
+  @apply fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300;
+}
+
+.drawer-backdrop.visible {
+  @apply opacity-100 pointer-events-auto;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+#info-panel ::-webkit-scrollbar {
+  width: 4px;
+}
+
+#info-panel ::-webkit-scrollbar-thumb {
+  background: rgba(16, 156, 226, 0.2);
+
+}
