@@ -258,7 +258,7 @@ export default function MapView({
   return (
     <main
       id="map-section"
-      className="flex-1 relative bg-[#eaf4ff] flex flex-col min-h-[450px] lg:min-h-0 order-2"
+      className="flex-1 relative bg-[#eaf4ff] flex flex-col min-h-[450px] lg:min-h-0 order-2 lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-2"
       aria-label="Interactive Map of the Philippines"
     >
       <div id="map" ref={containerRef} className="absolute inset-0 z-0" />

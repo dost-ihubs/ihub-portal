@@ -4,7 +4,7 @@ export default function InfoPanel() {
   return (
     <aside
       id="info-panel"
-      className="w-full lg:w-[550px] flex-shrink-0 bg-slate-100 border-r border-slate-200 p-4 order-1 overflow-hidden"
+      className="w-full lg:w-[550px] flex-shrink-0 bg-slate-100 border-r border-slate-200 p-4 order-1 overflow-hidden lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
     >
       <div className="bg-white rounded-2xl border border-slate-200 shadow-card h-full overflow-y-auto p-6 space-y-6">
 

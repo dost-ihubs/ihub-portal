@@ -83,10 +83,10 @@ export default function Sidebar({
   return (
     <aside
       id="sidebar-section"
-      className="w-full lg:w-[400px] flex-shrink-0 bg-slate-100 border-l border-slate-200 p-4 min-h-[500px] lg:h-full lg:min-h-0 order-3 overflow-hidden"
+      className="w-full lg:w-[350px] flex-shrink-0 bg-white border-l border-slate-200 min-h-[500px] lg:h-full lg:min-h-0 order-3 overflow-hidden lg:col-start-3 lg:col-end-4 lg:row-start-1 lg:row-end-3"
       aria-label="iHubs Directory Listings"
     >
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-card h-full flex flex-col overflow-hidden">
+      <div className="h-full flex flex-col overflow-hidden">
         <div className="sidebar-header p-5 border-b border-slate-200 flex-shrink-0">
           <div className="flex items-center gap-2 mb-4">
             {activeRegion && (
@@ -131,9 +131,9 @@ export default function Sidebar({
                     key={region.region_iso}
                     type="button"
                     onClick={() => onRegionSelect(region.region_iso)}
-                    className="flex items-center justify-between w-full p-3 bg-white hover:bg-brand-light/50 border border-slate-200 rounded-xl transition-all duration-200 group text-left"
+                    className="flex items-center justify-between w-full px-5 py-3 bg-white hover:bg-brand-light/50 border border-slate-200 rounded-full transition-all duration-200 group text-left"
                   >
-                    <span className="font-title font-bold text-sm text-slate-700 group-hover:text-brand-blue">{region.region_name}</span>
+                    <span className="font-title font-semibold text-xs text-slate-700 group-hover:text-brand-blue">{region.region_name}</span>
                     <svg className="w-4 h-4 text-slate-400 group-hover:text-brand-blue transform group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>

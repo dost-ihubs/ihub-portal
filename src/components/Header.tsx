@@ -1,10 +1,23 @@
 import type { DBSource } from "../types";
 
+export type Page = "find" | "about" | "how-it-works" | "programs" | "resources" | "contact";
+
 interface HeaderProps {
   dbSource: DBSource;
+  activePage: Page;
+  onNavigate: (page: Page) => void;
 }
 
-export default function Header({ dbSource }: HeaderProps) {
+const NAV_ITEMS: { label: string; page: Page }[] = [
+  { label: "About iHubs", page: "about" },
+  { label: "How It Works", page: "how-it-works" },
+  { label: "Find an iHub", page: "find" },
+  { label: "Programs", page: "programs" },
+  { label: "Resources", page: "resources" },
+  { label: "Contact", page: "contact" },
+];
+
+export default function Header({ dbSource, activePage, onNavigate }: HeaderProps) {
   const isLive = dbSource === "live";
 
   return (
@@ -30,12 +43,21 @@ export default function Header({ dbSource }: HeaderProps) {
       </div>
 
       <nav className="hidden md:flex items-center gap-7 font-poppins text-sm text-slate-700" aria-label="Main Navigation">
-        <a href="#" className="hover:text-brand-blue transition-colors">About iHubs</a>
-        <a href="#" className="hover:text-brand-blue transition-colors">How It Works</a>
-        <a href="#" className="text-sky-500 font-semibold">Find an iHub</a>
-        <a href="#" className="hover:text-brand-blue transition-colors">Programs</a>
-        <a href="#" className="hover:text-brand-blue transition-colors">Resources</a>
-        <a href="#" className="hover:text-brand-blue transition-colors">Contact</a>
+        {NAV_ITEMS.map(({ label, page }) => (
+          <button
+            key={page}
+            type="button"
+            onClick={() => onNavigate(page)}
+            className={
+              "transition-colors " +
+              (activePage === page
+                ? "text-sky-500 font-semibold"
+                : "hover:text-brand-blue")
+            }
+          >
+            {label}
+          </button>
+        ))}
       </nav>
     </header>
   );
