@@ -16,7 +16,7 @@ export default function Header({ dbSource }: HeaderProps) {
         <img src="/assets/iHubLogo.png" alt="iHub Logo" className="h-14 w-auto object-contain" />
         <div className="flex items-center gap-3">
           <h1 className="font-poppins text-[30px] font-bold text-sky-500">PORTAL</h1>
-          <span
+          {/* <span
             className={
               "px-2.5 py-0.5 rounded-full text-[11px] font-bold border " +
               (isLive
@@ -25,7 +25,7 @@ export default function Header({ dbSource }: HeaderProps) {
             }
           >
             {isLive ? "Live Supabase Data" : "Demo Offline Mode"}
-          </span>
+          </span> */}
         </div>
       </div>
 

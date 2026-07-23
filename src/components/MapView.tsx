@@ -80,6 +80,7 @@ export default function MapView({
 
     const map = L.map(containerRef.current, {
       zoomControl: false,
+      attributionControl: false,
       minZoom: 5.5,
       maxZoom: 12,
       maxBounds: [
