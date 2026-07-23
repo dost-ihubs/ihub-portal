@@ -1,12 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
-import type { GeoJsonCollection } from "../types"; // adjust to your actual Region/IHub types
+import type { Database } from "../types";
 
 const supabase = createClient(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-export async function fetchFromSupabase() {
+export async function fetchFromSupabase(): Promise<Database> {
     const [{ data: regions, error: regionsErr }, { data: ihubs, error: ihubsErr }] =
         await Promise.all([
             supabase.from("regions").select("*"),

@@ -34,10 +34,6 @@
   cursor: pointer;
 }
 
-#db-source-badge {
-  display: none !important;
-}
-
 /* Teardrop Leaflet Pins */
 .custom-pin-container {
   position: relative;
@@ -103,41 +99,6 @@
     transform: scale(2.2);
     opacity: 0;
   }
-}
-
-/* Info Overlay Glassmorphic Panel */
-.info-overlay {
-  @apply opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2;
-}
-
-.info-overlay.visible {
-  @apply opacity-100 pointer-events-auto translate-y-0;
-}
-
-/* Modal Overlay */
-.ihub-modal-overlay {
-  @apply fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300;
-}
-
-.ihub-modal-overlay.visible {
-  @apply opacity-100 pointer-events-auto;
-}
-
-/* Drawer Slide-over */
-.config-drawer {
-  @apply fixed top-0 right-0 z-50 w-full max-w-md h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col;
-}
-
-.config-drawer.open {
-  @apply translate-x-0;
-}
-
-.drawer-backdrop {
-  @apply fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300;
-}
-
-.drawer-backdrop.visible {
-  @apply opacity-100 pointer-events-auto;
 }
 
 /* Custom Scrollbar */
