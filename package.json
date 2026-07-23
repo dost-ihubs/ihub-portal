@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.8",
     "@turf/turf": "^6.5.0",
     "leaflet": "^1.9.4",
     "papaparse": "^5.4.1"
