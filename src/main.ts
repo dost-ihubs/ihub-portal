@@ -3,7 +3,8 @@ import L from "leaflet";
 import type { MapState, GeoJsonCollection, CustomFeatureProperties, IHub } from "./types";
 import { mockRegions, mockIHubs } from "./data/mockData";
 import { mergeNegrosIslandRegion } from "./utils/geo";
-import { fetchFromGoogleSheets } from "./utils/csv";
+// import { fetchFromGoogleSheets } from "./utils/csv";
+import { fetchFromSupabase } from "./utils/supabase";
 import { initMap, renderRegionsLayer, renderProvincesLayer, renderMapPins } from "./components/map";
 import { populateSidebarCards } from "./components/sidebar";
 import { updateDashboardStats } from "./components/dashboard";
@@ -144,7 +145,8 @@ async function loadData(): Promise<void> {
 
 async function loadFromSpreadsheet(sheetId: string): Promise<void> {
   try {
-    const data = await fetchFromGoogleSheets(sheetId);
+    // const data = await fetchFromGoogleSheets(sheetId);
+    const data = await fetchFromSupabase();
     state.database = data;
     state.dbSource = "live";
     dbBadge.textContent = "Live Google Sheet";
