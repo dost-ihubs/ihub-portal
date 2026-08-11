@@ -30,7 +30,8 @@ export default {
       fontFamily: {
         title: ["Poppins", "sans-serif"],
         body: ["Inter", "sans-serif"],
-        poppins: ["Poppins", "sans-serif"]
+        poppins: ["Poppins", "sans-serif"],
+        neue: ["Neue Montreal", "sans-serif"]
       },
       boxShadow: {
         glass: "0 8px 32px 0 rgba(0, 47, 108, 0.12)",

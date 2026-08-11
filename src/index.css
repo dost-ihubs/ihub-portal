@@ -1,3 +1,39 @@
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,9 +55,15 @@
   }
 }
 
+html {
+  zoom: 80%;
+}
+
+
 /* Custom Leaflet Map Container & Layers */
-#map {
+.leaflet-container {
   @apply w-full h-full bg-slate-100 outline-none;
+  /* background-color: var(--color-dark-blue, #002f6c); */
 }
 
 .region-path {

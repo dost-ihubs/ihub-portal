@@ -83,7 +83,7 @@ export default function Sidebar({
   return (
     <aside
       id="sidebar-section"
-      className="w-full lg:w-[350px] flex-shrink-0 bg-white border-l border-slate-200 min-h-[500px] lg:h-full lg:min-h-0 order-3 overflow-hidden lg:col-start-3 lg:col-end-4 lg:row-start-1 lg:row-end-3"
+      className="w-full h-full bg-white border-t lg:border-t-0 lg:border-l border-slate-200 flex-shrink-0 overflow-hidden relative"
       aria-label="iHubs Directory Listings"
     >
       <div className="h-full flex flex-col overflow-hidden">
@@ -102,7 +102,7 @@ export default function Sidebar({
                 </svg>
               </button>
             )}
-            <h2 className="font-title text-lg font-extrabold text-brand-blue tracking-tight">{sidebarTitle}</h2>
+            {/* <h2 className="font-title text-lg font-extrabold text-brand-blue tracking-tight">{sidebarTitle}</h2> */}
           </div>
 
           <div className="relative">
@@ -113,7 +113,7 @@ export default function Sidebar({
             <input
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-sm placeholder-slate-400 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 font-poppins border border-slate-200 rounded-full text-sm placeholder-slate-400 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all"
               type="search"
               placeholder="Search for an iHub..."
               aria-label="Search Innovation Hubs"
@@ -131,9 +131,9 @@ export default function Sidebar({
                     key={region.region_iso}
                     type="button"
                     onClick={() => onRegionSelect(region.region_iso)}
-                    className="flex items-center justify-between w-full px-5 py-3 bg-white hover:bg-brand-light/50 border border-slate-200 rounded-full transition-all duration-200 group text-left"
+                    className="flex items-center font-poppins justify-between w-full px-5 py-3 bg-white hover:bg-brand-light/50 border border-slate-200 rounded-full transition-all duration-200 group text-left"
                   >
-                    <span className="font-title font-semibold text-xs text-slate-700 group-hover:text-brand-blue">{region.region_name}</span>
+                    <span className="font-poppins font-semibold text-xs text-slate-700 group-hover:text-brand-blue">{region.region_name}</span>
                     <svg className="w-4 h-4 text-slate-400 group-hover:text-brand-blue transform group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
@@ -148,7 +148,7 @@ export default function Sidebar({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <div className="font-title font-bold text-slate-700 text-base mb-1">No Innovation Hubs found</div>
+              <div className="font-poppins font-bold text-slate-700 text-base mb-1">No Innovation Hubs found</div>
               <div className="text-xs text-slate-500">Try modifying your search or select another region.</div>
             </div>
           )}
@@ -160,7 +160,7 @@ export default function Sidebar({
                 <div key={provName}>
                   <div
                     className={
-                      "font-title text-xs font-extrabold uppercase tracking-wider text-slate-400 my-2 px-1 " +
+                      "font-poppins text-xs font-extrabold uppercase tracking-wider text-slate-400 my-2 px-1 " +
                       (activeProvince === provinceIso ? "text-brand-blue" : "")
                     }
                   >
