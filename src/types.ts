@@ -34,9 +34,23 @@ export interface IHub {
   image_url?: string;
 }
 
+export interface NewsArticle {
+  id: string;
+  title: string;
+  read_time: string;
+  date: string;
+  author: string;
+  region: string;
+  province: string;
+  img_url: string;
+  content: string;
+  created_at: string;
+}
+
 export interface Database {
   regions: Region[];
   ihubs: IHub[];
+  news: NewsArticle[];
 }
 
 export type DBSource = "live" | "mock";

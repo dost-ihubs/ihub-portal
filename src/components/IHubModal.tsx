@@ -6,7 +6,7 @@ interface IHubModalProps {
 }
 
 const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80";
+  "/assets/placeholderImage.png";
 
 export default function IHubModal({ hub, onClose }: IHubModalProps) {
   const visible = hub !== null;

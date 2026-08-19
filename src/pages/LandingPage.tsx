@@ -1,4 +1,5 @@
 import React from "react";
+import type { IHub, NewsArticle } from "../types";
 import {
   HeroSection,
   AboutSection,
@@ -8,16 +9,21 @@ import {
   FooterSection
 } from "../components/LandingSections";
 
+import { type Page } from "../components/Header";
+
 interface LandingPageProps {
   heroMapComponent?: React.ReactNode;
   mapComponent?: React.ReactNode;
   sidebarComponent?: React.ReactNode;
+  hubs: IHub[];
+  news: NewsArticle[];
+  onNavigate?: (page: Page) => void;
 }
 
-export default function LandingPage({ heroMapComponent, mapComponent, sidebarComponent }: LandingPageProps) {
+export default function LandingPage({ heroMapComponent, mapComponent, sidebarComponent, hubs, news, onNavigate }: LandingPageProps) {
   return (
     <div className="flex flex-col bg-white overflow-x-hidden relative">
-      <HeroSection mapComponent={heroMapComponent} />
+      <HeroSection mapComponent={heroMapComponent} onNavigate={onNavigate} />
 
       {/* Map Section */}
       <section className="py-24 px-6 lg:px-12 bg-slate-50 flex flex-col items-center">
@@ -31,8 +37,8 @@ export default function LandingPage({ heroMapComponent, mapComponent, sidebarCom
         </div>
       </section>
 
-      <AboutSection />
-      <NewsSection />
+      <AboutSection hubs={hubs} />
+      <NewsSection news={news} onNavigate={onNavigate} />
       <PartnersSection />
       <CTASection />
       <FooterSection />

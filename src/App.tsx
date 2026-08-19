@@ -13,6 +13,10 @@ import HowItWorksPage from "./pages/HowItWorksPage";
 import ProgramsPage from "./pages/ProgramsPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
+import FindPage from "./pages/FindPage";
+import NewsPage from "./pages/NewsPage";
+import ArticlePage from "./pages/ArticlePage";
+import AdminPage from "./pages/AdminPage";
 
 interface HoverInfo {
   visible: boolean;
@@ -25,7 +29,7 @@ export default function App() {
   const [regionsGeoJsonData, setRegionsGeoJsonData] = useState<GeoJsonCollection | null>(null);
   const [provincesGeoJsonData, setProvincesGeoJsonData] = useState<GeoJsonCollection | null>(null);
 
-  const [database, setDatabase] = useState<Database>({ regions: [], ihubs: [] });
+  const [database, setDatabase] = useState<Database>({ regions: [], ihubs: [], news: [] });
   const [dbSource, setDbSource] = useState<DBSource>("mock");
 
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
@@ -38,6 +42,13 @@ export default function App() {
   const [hoverInfo, setHoverInfo] = useState<HoverInfo>({ visible: false, label: "", count: 0, iso: null });
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState<Page>("home");
+  const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
+
+  const navigate = useCallback((page: Page, articleId?: string) => {
+    setActivePage(page);
+    setActiveArticleId(articleId ?? null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   // ----- Initial data load (geojson + Supabase, mirrors loadData() in main.ts) -----
   useEffect(() => {
@@ -66,12 +77,12 @@ export default function App() {
           setDbSource("live");
         } catch (err) {
           console.warn("Supabase load failed, using fallback mock data.", err);
-          setDatabase({ regions: mockRegions, ihubs: mockIHubs });
+          setDatabase({ regions: mockRegions, ihubs: mockIHubs, news: [] });
           setDbSource("mock");
         }
       } catch (error) {
         console.error("Error loading application data:", error);
-        setDatabase({ regions: mockRegions, ihubs: mockIHubs });
+        setDatabase({ regions: mockRegions, ihubs: mockIHubs, news: [] });
         setDbSource("mock");
       } finally {
         setLoading(false);
@@ -131,7 +142,7 @@ export default function App() {
 
   return (
     <div className="h-full flex flex-col bg-slate-50 text-slate-800 font-body antialiased selection:bg-brand-blue selection:text-white">
-      <Header dbSource={dbSource} activePage={activePage} onNavigate={setActivePage} />
+      <Header dbSource={dbSource} activePage={activePage} onNavigate={navigate} />
 
       <div className="flex-1 overflow-y-auto">
         {activePage === "about" && <AboutPage />}
@@ -139,9 +150,15 @@ export default function App() {
         {activePage === "programs" && <ProgramsPage />}
         {activePage === "resources" && <ResourcesPage />}
         {activePage === "contact" && <ContactPage />}
+        {activePage === "news" && <NewsPage news={database.news} onNavigate={navigate} />}
+        {activePage === "article" && <ArticlePage articleId={activeArticleId} news={database.news} onNavigate={navigate} />}
+        {activePage === "admin" && <AdminPage />}
 
         {activePage === "home" && (
           <LandingPage
+            hubs={database.ihubs}
+            news={database.news}
+            onNavigate={navigate}
             heroMapComponent={
               <MapView
                 regionsGeoJsonData={regionsGeoJsonData}
@@ -163,6 +180,43 @@ export default function App() {
                 scrollZoom={true}
               />
             }
+            mapComponent={
+              <MapView
+                regionsGeoJsonData={regionsGeoJsonData}
+                provincesGeoJsonData={provincesGeoJsonData}
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                showAllPinsNationwide={showAllPinsNationwide}
+                onToggleShowAllPins={setShowAllPinsNationwide}
+                onRegionSelect={selectRegion}
+                onProvinceSelect={selectProvince}
+                onHubClick={focusOnIHub}
+                hoverInfo={hoverInfo}
+                onRegionHover={handleRegionHover}
+                onRegionLeave={handleRegionLeave}
+              />
+            }
+            sidebarComponent={
+              <Sidebar
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                onRegionSelect={selectRegion}
+                onHubClick={(hub) => setModalHub(hub)}
+                onBack={resetToNationalView}
+                sidebarTitle={sidebarTitle}
+              />
+            }
+          />
+        )}
+        
+        {activePage === "find" && (
+          <FindPage
             mapComponent={
               <MapView
                 regionsGeoJsonData={regionsGeoJsonData}
