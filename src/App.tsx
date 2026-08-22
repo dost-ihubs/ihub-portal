@@ -4,15 +4,19 @@ import { mockRegions, mockIHubs } from "./data/mockData";
 import { mergeNegrosIslandRegion } from "./utils/geo";
 import { fetchFromSupabase } from "./utils/supabase";
 import Header, { type Page } from "./components/Header";
-import InfoPanel from "./components/InfoPanel";
 import MapView from "./components/MapView";
 import Sidebar from "./components/Sidebar";
 import IHubModal from "./components/IHubModal";
+import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
 import ProgramsPage from "./pages/ProgramsPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
+import FindPage from "./pages/FindPage";
+import NewsPage from "./pages/NewsPage";
+import ArticlePage from "./pages/ArticlePage";
+import AdminPage from "./pages/AdminPage";
 
 interface HoverInfo {
   visible: boolean;
@@ -25,19 +29,26 @@ export default function App() {
   const [regionsGeoJsonData, setRegionsGeoJsonData] = useState<GeoJsonCollection | null>(null);
   const [provincesGeoJsonData, setProvincesGeoJsonData] = useState<GeoJsonCollection | null>(null);
 
-  const [database, setDatabase] = useState<Database>({ regions: [], ihubs: [] });
+  const [database, setDatabase] = useState<Database>({ regions: [], ihubs: [], news: [] });
   const [dbSource, setDbSource] = useState<DBSource>("mock");
 
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   const [activeProvince, setActiveProvince] = useState<string | null>(null);
   const [activeIHub, setActiveIHub] = useState<string | null>(null);
-  const [showAllPinsNationwide, setShowAllPinsNationwide] = useState(false);
+  const [showAllPinsNationwide, setShowAllPinsNationwide] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [modalHub, setModalHub] = useState<IHub | null>(null);
   const [hoverInfo, setHoverInfo] = useState<HoverInfo>({ visible: false, label: "", count: 0, iso: null });
   const [loading, setLoading] = useState(true);
-  const [activePage, setActivePage] = useState<Page>("find");
+  const [activePage, setActivePage] = useState<Page>("home");
+  const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
+
+  const navigate = useCallback((page: Page, articleId?: string) => {
+    setActivePage(page);
+    setActiveArticleId(articleId ?? null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   // ----- Initial data load (geojson + Supabase, mirrors loadData() in main.ts) -----
   useEffect(() => {
@@ -66,12 +77,12 @@ export default function App() {
           setDbSource("live");
         } catch (err) {
           console.warn("Supabase load failed, using fallback mock data.", err);
-          setDatabase({ regions: mockRegions, ihubs: mockIHubs });
+          setDatabase({ regions: mockRegions, ihubs: mockIHubs, news: [] });
           setDbSource("mock");
         }
       } catch (error) {
         console.error("Error loading application data:", error);
-        setDatabase({ regions: mockRegions, ihubs: mockIHubs });
+        setDatabase({ regions: mockRegions, ihubs: mockIHubs, news: [] });
         setDbSource("mock");
       } finally {
         setLoading(false);
@@ -131,61 +142,118 @@ export default function App() {
 
   return (
     <div className="h-full flex flex-col bg-slate-50 text-slate-800 font-body antialiased selection:bg-brand-blue selection:text-white">
-      <Header dbSource={dbSource} activePage={activePage} onNavigate={setActivePage} />
+      <Header dbSource={dbSource} activePage={activePage} onNavigate={navigate} />
 
-      {activePage === "about" && <AboutPage />}
-      {activePage === "how-it-works" && <HowItWorksPage />}
-      {activePage === "programs" && <ProgramsPage />}
-      {activePage === "resources" && <ResourcesPage />}
-      {activePage === "contact" && <ContactPage />}
+      <div className="flex-1 overflow-y-auto">
+        {activePage === "about" && <AboutPage />}
+        {activePage === "how-it-works" && <HowItWorksPage />}
+        {activePage === "programs" && <ProgramsPage />}
+        {activePage === "resources" && <ResourcesPage />}
+        {activePage === "contact" && <ContactPage />}
+        {activePage === "news" && <NewsPage news={database.news} onNavigate={navigate} />}
+        {activePage === "article" && <ArticlePage articleId={activeArticleId} news={database.news} onNavigate={navigate} />}
+        {activePage === "admin" && <AdminPage />}
 
-      {activePage === "find" && (
+        {activePage === "home" && (
+          <LandingPage
+            hubs={database.ihubs}
+            news={database.news}
+            onNavigate={navigate}
+            heroMapComponent={
+              <MapView
+                regionsGeoJsonData={regionsGeoJsonData}
+                provincesGeoJsonData={provincesGeoJsonData}
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                showAllPinsNationwide={showAllPinsNationwide}
+                onToggleShowAllPins={setShowAllPinsNationwide}
+                onRegionSelect={selectRegion}
+                onProvinceSelect={selectProvince}
+                onHubClick={focusOnIHub}
+                hoverInfo={hoverInfo}
+                onRegionHover={handleRegionHover}
+                onRegionLeave={handleRegionLeave}
+                hideLegend={true}
+                forceShowAllPins={true}
+                scrollZoom={true}
+                disableHover={true}
 
-      <div className="flex-1 flex flex-col lg:grid lg:grid-cols-[550px_1fr_350px] lg:grid-rows-[1fr_auto] overflow-y-auto lg:overflow-hidden relative">
-        <InfoPanel />
+              />
+            }
+            mapComponent={
+              <MapView
+                regionsGeoJsonData={regionsGeoJsonData}
+                provincesGeoJsonData={provincesGeoJsonData}
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                showAllPinsNationwide={showAllPinsNationwide}
+                onToggleShowAllPins={setShowAllPinsNationwide}
+                onRegionSelect={selectRegion}
+                onProvinceSelect={selectProvince}
+                onHubClick={focusOnIHub}
+                hoverInfo={hoverInfo}
+                onRegionHover={handleRegionHover}
+                onRegionLeave={handleRegionLeave}
+              />
+            }
+            sidebarComponent={
+              <Sidebar
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                onRegionSelect={selectRegion}
+                onHubClick={(hub) => setModalHub(hub)}
+                onBack={resetToNationalView}
+                sidebarTitle={sidebarTitle}
+              />
+            }
+          />
+        )}
 
-        <MapView
-          regionsGeoJsonData={regionsGeoJsonData}
-          provincesGeoJsonData={provincesGeoJsonData}
-          database={database}
-          activeRegion={activeRegion}
-          activeProvince={activeProvince}
-          activeIHub={activeIHub}
-          showAllPinsNationwide={showAllPinsNationwide}
-          onToggleShowAllPins={setShowAllPinsNationwide}
-          onRegionSelect={selectRegion}
-          onProvinceSelect={selectProvince}
-          onHubClick={focusOnIHub}
-          hoverInfo={hoverInfo}
-          onRegionHover={handleRegionHover}
-          onRegionLeave={handleRegionLeave}
-        />
-
-        <Sidebar
-          database={database}
-          activeRegion={activeRegion}
-          activeProvince={activeProvince}
-          activeIHub={activeIHub}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onRegionSelect={selectRegion}
-          onHubClick={(hub) => setModalHub(hub)}
-          onBack={resetToNationalView}
-          sidebarTitle={sidebarTitle}
-        />
-
-        <footer className="bg-white border-t border-slate-200 px-6 py-4 flex flex-wrap items-center justify-between gap-4 order-4 lg:col-start-1 lg:col-end-3 lg:row-start-2 lg:row-end-3">
-          <span className="text-xs font-medium text-slate-500">Powered by a Growing Innovation Ecosystem</span>
-          <div className="flex flex-wrap items-center gap-6 opacity-80">
-            <img src="/assets/wadwhaniLogo.png" alt="Wadhwani Foundation" className="h-6 w-auto object-contain" />
-            <img src="/assets/pcci_logo.webp" alt="Philippine Chamber of Commerce and Industry" className="h-7 w-auto object-contain" />
-            <img src="/assets/devcon_logo.png" alt="DEVCON" className="h-5 w-auto object-contain" />
-            <img src="/assets/leaveanestlogo.webp" alt="Leave a Nest" className="h-5 w-auto object-contain" />
-            <img src="/assets/gdap_logo.webp" alt="Game Developers Association of the Philippines" className="h-6 w-auto object-contain" />
-          </div>
-        </footer>
+        {activePage === "find" && (
+          <FindPage
+            mapComponent={
+              <MapView
+                regionsGeoJsonData={regionsGeoJsonData}
+                provincesGeoJsonData={provincesGeoJsonData}
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                showAllPinsNationwide={showAllPinsNationwide}
+                onToggleShowAllPins={setShowAllPinsNationwide}
+                onRegionSelect={selectRegion}
+                onProvinceSelect={selectProvince}
+                onHubClick={focusOnIHub}
+                hoverInfo={hoverInfo}
+                onRegionHover={handleRegionHover}
+                onRegionLeave={handleRegionLeave}
+              />
+            }
+            sidebarComponent={
+              <Sidebar
+                database={database}
+                activeRegion={activeRegion}
+                activeProvince={activeProvince}
+                activeIHub={activeIHub}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                onRegionSelect={selectRegion}
+                onHubClick={(hub) => setModalHub(hub)}
+                onBack={resetToNationalView}
+                sidebarTitle={sidebarTitle}
+              />
+            }
+          />
+        )}
       </div>
-      )}
 
       <IHubModal hub={modalHub} onClose={() => setModalHub(null)} />
 

@@ -19,6 +19,10 @@ interface MapViewProps {
   hoverInfo: { visible: boolean; label: string; count: number; iso: string | null };
   onRegionHover: (props: CustomFeatureProperties) => void;
   onRegionLeave: () => void;
+  hideLegend?: boolean;
+  forceShowAllPins?: boolean;
+  scrollZoom?: boolean;
+  disableHover?: boolean;   // ← new
 }
 
 function styleRegionFeature(props: CustomFeatureProperties | undefined, activeRegion: string | null): L.PathOptions {
@@ -66,6 +70,10 @@ export default function MapView({
   hoverInfo,
   onRegionHover,
   onRegionLeave,
+  hideLegend,
+  forceShowAllPins,
+  scrollZoom = true,
+  disableHover = false,
 }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -81,8 +89,11 @@ export default function MapView({
     const map = L.map(containerRef.current, {
       zoomControl: false,
       attributionControl: false,
+      scrollWheelZoom: scrollZoom,
       minZoom: 5.5,
       maxZoom: 12,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
       maxBounds: [
         [4.0, 114.0],
         [22.0, 128.0],
@@ -130,22 +141,24 @@ export default function MapView({
       onEachFeature: (feature, layer) => {
         const props = feature.properties as CustomFeatureProperties;
         layer.on({
-          mouseover: (e) => {
-            if (activeRegion !== null) return;
-            onRegionHover(props);
-            const target = e.target as L.Path;
-            target.setStyle({
-              fillColor: "var(--color-region-hover, #6ba8f7)",
-              fillOpacity: 0.95,
-            });
-            target.bringToFront();
-          },
-          mouseout: (e) => {
-            if (activeRegion !== null) return;
-            onRegionLeave();
-            const target = e.target as L.Path;
-            target.setStyle(styleRegionFeature(props, activeRegion));
-          },
+          ...(disableHover ? {} : {
+            mouseover: (e) => {
+              if (activeRegion !== null) return;
+              onRegionHover(props);
+              const target = e.target as L.Path;
+              target.setStyle({
+                fillColor: "var(--color-region-hover, #6ba8f7)",
+                fillOpacity: 0.95,
+              });
+              target.bringToFront();
+            },
+            mouseout: (e) => {
+              if (activeRegion !== null) return;
+              onRegionLeave();
+              const target = e.target as L.Path;
+              target.setStyle(styleRegionFeature(props, activeRegion));
+            },
+          }),
           click: () => {
             if (props.ISO !== activeRegion) onRegionSelect(props.ISO);
           },
@@ -170,7 +183,7 @@ export default function MapView({
       map.setView([12.5, 122.0], 6);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [regionsGeoJsonData, activeRegion]);
+  }, [regionsGeoJsonData, activeRegion, disableHover]);
 
   // Provinces layer: only present while a region is selected
   useEffect(() => {
@@ -208,9 +221,9 @@ export default function MapView({
     markersMapRef.current = {};
 
     let hubs: IHub[] = [];
-    if (activeRegion) {
+    if (activeRegion && !forceShowAllPins) {
       hubs = database.ihubs.filter((hub) => hub.region_iso === activeRegion);
-    } else if (showAllPinsNationwide) {
+    } else if (showAllPinsNationwide || forceShowAllPins) {
       hubs = database.ihubs;
     }
 
@@ -221,7 +234,7 @@ export default function MapView({
       const pinIcon = L.divIcon({
         className: "custom-pin-container",
         html: `<div class="pin-marker ${typeClass}"></div><div class="pin-pulse ${typeClass}"></div>`,
-        iconSize: [32, 32],
+        iconSize: [28, 28],
         iconAnchor: [16, 28],
       });
 
@@ -241,7 +254,7 @@ export default function MapView({
       markersMapRef.current[hub.id] = marker;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [database, activeRegion, showAllPinsNationwide]);
+  }, [database, activeRegion, showAllPinsNationwide, forceShowAllPins]);
 
   // Focus + open popup when a specific hub becomes active (e.g. clicked from the sidebar)
   useEffect(() => {
@@ -257,34 +270,35 @@ export default function MapView({
 
   return (
     <main
-      id="map-section"
-      className="flex-1 relative bg-[#eaf4ff] flex flex-col min-h-[450px] lg:min-h-0 order-2 lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-2"
+      className="w-full h-full relative bg-[#DBEFFF] flex flex-col min-h-[400px]"
       aria-label="Interactive Map of the Philippines"
     >
-      <div id="map" ref={containerRef} className="absolute inset-0 z-0" />
+      <div ref={containerRef} className="absolute inset-0 z-0" />
 
-      <div
-        className="legend-overlay absolute top-4 left-4 z-10 bg-white px-4 py-3 rounded-2xl shadow-card border border-slate-200 flex flex-col gap-2 text-xs font-semibold text-slate-700"
-        aria-label="Map Legend"
-      >
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-purple-500 inline-block"></span>
-          <span>Regional iHub</span>
+      {!hideLegend && (
+        <div
+          className="legend-overlay absolute top-4 left-4 z-10 bg-white px-4 py-3 rounded-2xl shadow-card border border-slate-200 flex flex-col gap-2 text-xs font-semibold text-slate-700"
+          aria-label="Map Legend"
+        >
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-purple-500 inline-block"></span>
+            <span>Regional iHub</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+            <span>Provincial iHub</span>
+          </div>
+          <label className="flex items-center gap-2 pt-2 border-t border-slate-200 cursor-pointer font-normal text-[11px] text-slate-600">
+            <input
+              type="checkbox"
+              checked={showAllPinsNationwide}
+              onChange={(e) => onToggleShowAllPins(e.target.checked)}
+              className="rounded border-slate-300 text-brand-blue focus:ring-brand-blue"
+            />
+            <span>Show all pins nationwide</span>
+          </label>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
-          <span>Provincial iHub</span>
-        </div>
-        <label className="flex items-center gap-2 pt-2 border-t border-slate-200 cursor-pointer font-normal text-[11px] text-slate-600">
-          <input
-            type="checkbox"
-            checked={showAllPinsNationwide}
-            onChange={(e) => onToggleShowAllPins(e.target.checked)}
-            className="rounded border-slate-300 text-brand-blue focus:ring-brand-blue"
-          />
-          <span>Show all pins nationwide</span>
-        </label>
-      </div>
+      )}
 
       <InfoOverlay
         visible={hoverInfo.visible}
