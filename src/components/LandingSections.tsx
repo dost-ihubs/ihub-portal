@@ -4,78 +4,140 @@ import { type Page } from './Header';
 
 export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React.ReactNode; onNavigate?: (page: Page) => void }) {
   return (
-    <section className="relative w-full min-h-[850px] flex items-center bg-slate-900 overflow-hidden pt-40 pb-24">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
-          src='/assets/wv_ihub.jpg'
-          alt="Modern Co-working Space"
-          className="w-full h-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-[#003F6A] opacity-65"></div>
-      </div>
+    <section className="relative z-10 w-full bg-white rounded-b-[2.5rem] lg:rounded-b-[4rem] overflow-hidden pt-20 md:pt-32 pb-16 px-4 sm:px-6 lg:px-12">      <div className="max-w-[1370px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-end">
-        {/* Left Column */}
-        <div className="space-y-16">
-          <h1 className="font-neue text-[96px] font-medium leading-[1.1] tracking-[0] text-white mt-">
+      {/* Left Card: Intro */}
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[500px] sm:min-h-[560px] lg:min-h-[calc(100dvh-180px)] flex flex-col items-center justify-center text-center p-8 sm:p-10 lg:p-12">
+        <img
+          src="/assets/wv_ihub.jpg"
+          alt="Modern Co-working Space"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#235494]/90 to-[#002E6A]/85"></div>
+
+        <div className="relative z-10 flex flex-col items-center space-y-6 max-w-md">
+          <span className="inline-block px-5 py-1.5 border border-white/50 text-white rounded-full text-xs font-poppins font-medium tracking-wide uppercase w-fit">
+            DOST iHubs
+          </span>
+
+          <h1 className="font-poppins text-[72px] leading-[1.1] text-white">
             Innovation Starts Here
           </h1>
 
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-[2rem] shadow-2xl max-w-sm">
-            {/* Map Block */}
-            <div className="w-full h-48  rounded-2xl mb-5 overflow-hidden flex items-center justify-center relative shadow-inner">
-              {mapComponent ? (
-                <div className="absolute inset-0 z-0 origin-center opacity-90 mix-blend-luminosity">
-                  {mapComponent}
-                </div>
-              ) : (
-                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800" alt="Map Placeholder" className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-70" />
-              )}
-              {!mapComponent && <div className="absolute inset-0 bg-brand-blue/20"></div>}
-            </div>
-
-            <h3 className="font-neue font-medium text-white text-2xl mb-2">iHub Directory</h3>
-            <p className="font-poppins text-blue-100 text-[16px] tracking-[0] mb-5 pr-4">Experience Innovation in Every Region. Visit Our iHubs Nationwide.</p>
-            <button onClick={() => onNavigate && onNavigate("find")} className="inline-flex items-center text-[14px] font-poppins font-semibold text-white hover:text-sky-300 transition-colors">
-              Check directory
-              <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-10 pb-6">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-6">
-            <div>
-              <p className="font-poppins text-blue-100 text-xs md:text-sm font-regular mb-1">Total iHubs</p>
-              <p className="text-white text-4xl md:text-5xl font-bold">59</p>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-white/20"></div>
-            <div>
-              <p className="font-poppins text-blue-100 text-xs md:text-sm font-regular mb-1">Regional iHubs</p>
-              <p className="text-white text-4xl md:text-5xl font-bold">5</p>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-white/20"></div>
-            <div>
-              <p className="font-poppins text-blue-100 text-xs md:text-sm font-regular mb-1">Provincial iHubs</p>
-              <p className="text-white text-4xl md:text-5xl font-bold">54</p>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-white/20"></div>
-            <div>
-              <p className="font-poppins text-blue-100 text-xs md:text-sm font-regular mb-1">Regions</p>
-              <p className="text-white text-4xl md:text-5xl font-bold">18</p>
-            </div>
-          </div>
-
-          <p className="font-poppins text-white text-lg md:text-xl font-light leading-relaxed max-w-xl">
+          <p className="font-poppins text-white text-base lg:text-lg leading-relaxed">
             The DOST Innovation Hub (iHub) plays a critical role in the overall development and success of startups, strengthening the Philippine innovation ecosystem from the ground up.
           </p>
 
-          <button className="font-poppins text-[14px] px-8 py-3 bg-sky-500 hover:bg-sky-400 transition-colors text-white rounded-full font-semibold shadow-lg">
+          <button className="font-poppins text-sm px-7 py-3 bg-sky-500 hover:bg-sky-400 transition-colors text-white rounded-full font-semibold shadow-lg w-fit">
             Learn more
           </button>
         </div>
+      </div>
+
+      {/* Right Card: Map */}
+      <div className="relative rounded-[2rem] overflow-hidden min-h-[400px] sm:min-h-[480px] lg:min-h-[calc(100dvh-180px)] bg-[#DBEFFF]">
+
+        {/* Top-left: latest events card, arrow badge overlapping its corner */}
+        <div className="absolute top-6 left-6 z-20">
+          <div className="relative w-48 bg-white rounded-2xl shadow-sm p-4 pr-8">
+            <p className="text-slate-800 text-sm font-poppins leading-snug">
+              Find out about the latest events
+            </p>
+            <span className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-[#002E6A] text-white flex items-center justify-center shadow-md">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        {/* Top-right, offset lower: directory pill */}
+        <button
+          onClick={() => onNavigate && onNavigate("find")}
+          className="absolute top-[190px] right-6 z-20 inline-flex items-center bg-[#002E6A] hover:bg-[#00375d] transition-colors text-white px-5 py-2.5 rounded-full text-xs font-poppins font-semibold shadow-sm"
+        >
+          Check out directory
+        </button>
+
+        {/* Map — full opacity, bleeding slightly past the right edge */}
+        <div className="absolute inset-0 flex items-center justify-center ">
+          {mapComponent ? (
+            <div className="w-full h-full flex items-center justify-center">
+              {mapComponent}
+            </div>
+          ) : (
+            <img
+              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800"
+              alt="Philippines Map"
+              className="w-[85%] h-[110%] object-contain translate-x-4 "
+            />
+          )}
+        </div>
+
+        {/* Bottom-left: social badge */}
+        <div className="absolute bottom-6 left-6 z-20">
+
+          <a href="#"
+            className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-800 pl-1.5 pr-4 py-1.5 rounded-full text-xs font-poppins font-medium shadow-sm hover:bg-white transition-colors w-fit"
+          >
+            <span className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center flex-shrink-0">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z" /></svg>
+            </span>
+            Find us on social networks
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+    </section>
+  );
+}
+
+export function IHubNetworkSection({
+  onNavigate,
+  totalHubs = 59,
+  regionalHubs = 5,
+  provincialHubs = 54,
+  regions = 17,
+}: {
+  onNavigate?: (page: Page) => void;
+  totalHubs?: number;
+  regionalHubs?: number;
+  provincialHubs?: number;
+  regions?: number;
+}) {
+  const stats = [
+    { label: "Total No. of iHubs in the Philippines", value: totalHubs, color: "text-[#00AEEF]", tilt: "-rotate-3" },
+    { label: "Regional iHubs", value: regionalHubs, color: "text-[#86E21D]", tilt: "rotate-2" },
+    { label: "Provincial iHubs", value: provincialHubs, color: "text-[#C77DFF]", tilt: "-rotate-2" },
+    { label: "Regions", value: regions, color: "text-[#F16A64]", tilt: "rotate-3" },
+  ];
+
+  return (
+    <section className="py-24 px-6 lg:px-12 flex flex-col items-center">
+      <h2 className="font-poppins text-[64px] text-white tracking-tight text-center mb-4">The iHub Network</h2>
+      <p className="text-white text-[16px] font-poppins text-center max-w-xl mb-8 leading-relaxed">
+        The current iHub network spans 17 regions, with 59 hubs established nationwide. Explore the iHub Directory to discover the hubs across the country.
+      </p>
+      <button
+        onClick={() => onNavigate && onNavigate("find")}
+        className="mb-12 px-6 py-2.5 border border-slate-300 rounded-full text-sm font-poppins font-medium text-white hover:bg-sky-500 transition-colors"
+      >
+        Explore directory
+      </button>
+
+      <div className="w-full max-w-[1000px] grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className={`bg-white rounded-3xl border border-slate-100 shadow-md p-6 flex flex-col gap-2 transform-gpu ${stat.tilt} hover:rotate-0 hover:-translate-y-1 hover:shadow-xl transition-transform duration-300 ease-out will-change-transform`}
+          >
+            <p className="text-[#002E6A] text-[16px] font-poppins font-semibold leading-snug">{stat.label}</p>
+            <p className={`font-poppins text-[96px] font-semibold ${stat.color}`}>{stat.value}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -90,36 +152,40 @@ const FALLBACK_IMAGE = "/assets/placeholderImage.png";
 const ROTATE_INTERVAL = 5000;
 const FADE_DURATION = 300;
 
-function pickRandomHubs(hubs: IHub[]): IHub[] {
+function pickRandomHubs(hubs: IHub[], count: number): IHub[] {
   const withImages = hubs.filter((h) => !!h.image_url);
   const shuffled = [...withImages].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 3);
+  return shuffled.slice(0, count);
 }
+
+const CAROUSEL_SIZE = 4;
 
 export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
   const [featured, setFeatured] = useState<IHub[]>([]);
   const [fadeOut, setFadeOut] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    setFeatured(pickRandomHubs(hubs));
+    setFeatured(pickRandomHubs(hubs, CAROUSEL_SIZE));
   }, [hubs]);
 
   const rotate = useCallback(() => {
     setFadeOut(true);
     setTimeout(() => {
-      setFeatured(pickRandomHubs(hubs));
+      setFeatured(pickRandomHubs(hubs, CAROUSEL_SIZE));
+      setActiveIndex(0);
       setFadeOut(false);
     }, FADE_DURATION);
   }, [hubs]);
 
   useEffect(() => {
-    if (hubs.length <= 3) return; // nothing to rotate through
+    if (hubs.length <= CAROUSEL_SIZE) return; // nothing to rotate through
     const interval = setInterval(rotate, ROTATE_INTERVAL);
     return () => clearInterval(interval);
   }, [rotate, hubs.length]);
 
   return (
-    <section className="py-24 px-6 lg:px-12 bg-white max-w-[1400px] mx-auto w-full">
+    <section className="py-24 px-6 lg:px-12 bg-white max-w-[1250px] mx-auto w-full">
       <div className="flex justify-center mb-16">
         <div className="px-6 py-2 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-medium">
           About iHubs
@@ -128,7 +194,7 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start mb-16">
         <div>
-          <h2 className="text-5xl lg:text-6xl font-medium text-[#003F6A] tracking-tight">
+          <h2 className="text-[64px] font-poppins font-medium text-[#003F6A] tracking-tight">
             What is an iHub?
           </h2>
         </div>
@@ -145,15 +211,23 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
         </div>
       </div>
 
+      {/* Expanding carousel */}
       <div
         className={
-          "grid grid-cols-1 md:grid-cols-3 gap-6 transition-opacity duration-300 " +
+          "flex flex-col md:flex-row gap-4 h-auto md:h-[440px] transition-opacity duration-300 " +
           (fadeOut ? "opacity-0" : "opacity-100")
         }
       >
-        {featured.map((hub) => (
-          <div key={hub.id} className="group cursor-pointer">
-            <div className="rounded-[32px] overflow-hidden aspect-[3/4] mb-6">
+        {featured.map((hub, idx) => {
+          const isActive = idx === activeIndex;
+          return (
+            <div
+              key={hub.id}
+              onMouseEnter={() => setActiveIndex(idx)}
+              onClick={() => setActiveIndex(idx)}
+              className="group relative rounded-[2rem] overflow-hidden cursor-pointer h-[260px] md:h-full transition-[flex-grow] duration-500 ease-out"
+              style={{ flexGrow: isActive ? 3.2 : 1, flexBasis: 0, flexShrink: 1, minWidth: 0 }}
+            >
               <img
                 src={hub.image_url || FALLBACK_IMAGE}
                 alt={hub.name}
@@ -161,15 +235,40 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
                   const img = e.target as HTMLImageElement;
                   if (img.src !== FALLBACK_IMAGE) img.src = FALLBACK_IMAGE;
                 }}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/10 to-transparent"></div>
+
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3
+                  className={
+                    "font-medium text-white mb-1 transition-all duration-300 " +
+                    (isActive ? "text-xl opacity-100" : "text-sm opacity-90 line-clamp-2")
+                  }
+                >
+                  {hub.name}
+                </h3>
+                <p
+                  className={
+                    "text-slate-200 text-xs mb-3 transition-opacity duration-300 " +
+                    (isActive ? "opacity-100" : "opacity-0 h-0")
+                  }
+                >
+                  {hub.address}
+                </p>
+                <span
+                  className={
+                    "inline-flex items-center gap-1.5 bg-white text-slate-800 rounded-full text-[11px] font-poppins font-semibold px-3 py-1.5 transition-all duration-300 " +
+                    (isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none")
+                  }
+                >
+                  Explore hub
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
             </div>
-            <h3 className="font-medium text-xl text-[#003F6A] mb-1 group-hover:text-sky-500 transition-colors">
-              {hub.name}
-            </h3>
-            <p className="text-slate-700 text-sm">{hub.address}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -206,16 +305,16 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
   ];
 
   // Map DB news to the format expected by the UI, or use fallback if empty
-  const displayNews = dbNews && dbNews.length > 0 
+  const displayNews = dbNews && dbNews.length > 0
     ? dbNews.map(n => ({
-        id: n.id,
-        title: n.title,
-        tag: `${n.region}, ${n.province}`,
-        author: n.author,
-        date: new Date(n.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-        readTime: n.read_time,
-        img: n.img_url
-      }))
+      id: n.id,
+      title: n.title,
+      tag: `${n.region}, ${n.province}`,
+      author: n.author,
+      date: new Date(n.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+      readTime: n.read_time,
+      img: n.img_url
+    }))
     : fallbackNews.map(n => ({ ...n, id: null as null }));
 
   // We ensure we have at least one featured and some other items to match the grid structure
@@ -224,14 +323,14 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
 
   return (
     <section className="py-24 px-6 lg:px-12 bg-white">
-      <div className="max-w-[1400px] mx-auto w-full">
+      <div className="max-w-[1250px] mx-auto w-full">
         {/* Header row */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div>
             <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-medium mb-6">
               Newsroom
             </span>
-            <h2 className="text-4xl lg:text-6xl font-medium text-[#003F6A] tracking-tight leading-[1.1]">
+            <h2 className="text-[64px] font-poppins font-medium text-[#003F6A] tracking-tight">
               Latest news and<br />updates
             </h2>
           </div>
@@ -295,7 +394,7 @@ export function PartnersSection() {
   return (
     <section className="py-24 px-6 lg:px-12 bg-white text-center">
       <span className="text-slate-400 font-semibold tracking-wider uppercase text-sm mb-3 block">Partners</span>
-      <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 tracking-tight mb-16">Powered by a growing ecosystem</h2>
+      <h2 className="max-w-[700px] mx-auto text-[32px] font-poppins font-medium text-[#003F6A] tracking-tight">Powered by a growing ecosystem</h2>
 
       <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-20 max-w-[1200px] mx-auto">
         <img src="/assets/wadwhaniLogo.png" alt="Wadhwani Foundation" className="h-16 w-auto object-contain" />
@@ -372,7 +471,7 @@ export function CTASection() {
       <div className="max-w-[1200px] mx-auto rounded-[40px] overflow-hidden shadow-2xl flex flex-col lg:flex-row items-stretch bg-sky-400">
         {/* Left: solid blue text panel */}
         <div className="relative z-10 p-10 lg:p-14 text-white flex-1 flex flex-col justify-center">
-          <h2 className="text-[56px] font-neue font-medium mb-3 leading-tight">Collect your iMugs</h2>
+          <h2 className="text-[56px] font-poppins font-medium mb-3 leading-tight">Collect your iMugs</h2>
           <p className="font-poppins text-blue-50 text-[16px]sm lg:text-base mb-6 leading-relaxed max-w-sm">
             Experience innovation across the Philippines. Visit Innovation Hubs, discover local innovators, and collect an iMug along the way.
           </p>

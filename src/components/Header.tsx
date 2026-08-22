@@ -48,9 +48,6 @@ export default function Header({ dbSource, activePage, onNavigate }: HeaderProps
         </nav>
 
         <div className="hidden md:flex items-center justify-end gap-3">
-          <button onClick={() => onNavigate("admin")} className="px-4 py-2 bg-slate-200 text-slate-700 text-[13px] font-semibold text-poppins rounded-full hover:bg-slate-300 transition-colors shadow-sm">
-            Admin
-          </button>
           <button onClick={() => onNavigate("find")} className="px-6 py-2.5 bg-sky-500 text-white text-[14px] font-semibold text-poppins rounded-full hover:bg-sky-400 transition-colors shadow-md">
             Find an iHub
           </button>

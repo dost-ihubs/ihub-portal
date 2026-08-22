@@ -178,6 +178,8 @@ export default function App() {
                 hideLegend={true}
                 forceShowAllPins={true}
                 scrollZoom={true}
+                disableHover={true}
+
               />
             }
             mapComponent={
@@ -214,7 +216,7 @@ export default function App() {
             }
           />
         )}
-        
+
         {activePage === "find" && (
           <FindPage
             mapComponent={

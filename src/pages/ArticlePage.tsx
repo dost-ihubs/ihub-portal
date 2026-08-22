@@ -15,7 +15,7 @@ export default function ArticlePage({ articleId, news, onNavigate }: ArticlePage
     return (
       <div className="bg-slate-50 min-h-screen pt-32 pb-24 px-6 lg:px-12 flex flex-col items-center justify-center">
         <h2 className="text-2xl font-bold text-slate-800 mb-4">Article not found</h2>
-        <button 
+        <button
           onClick={() => onNavigate("news")}
           className="px-6 py-2 bg-sky-500 text-white rounded-full font-semibold hover:bg-sky-600 transition-colors"
         >
@@ -38,7 +38,7 @@ export default function ArticlePage({ articleId, news, onNavigate }: ArticlePage
     <div className="bg-white min-h-screen pt-32 pb-24">
       {/* Article Header */}
       <div className="max-w-4xl mx-auto px-6 lg:px-12 mb-12">
-        <button 
+        <button
           onClick={() => onNavigate("news")}
           className="inline-flex items-center text-sky-500 font-medium hover:text-sky-600 transition-colors mb-8"
         >
@@ -47,17 +47,17 @@ export default function ArticlePage({ articleId, news, onNavigate }: ArticlePage
           </svg>
           Back to all news
         </button>
-        
+
         <div className="mb-6">
           <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-medium">
             {article.region}, {article.province}
           </span>
         </div>
-        
+
         <h1 className="text-4xl lg:text-5xl font-bold text-[#003F6A] leading-tight mb-6">
           {article.title}
         </h1>
-        
+
         <div className="flex flex-wrap items-center gap-4 text-slate-500 text-sm border-b border-slate-100 pb-8">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold">
@@ -75,9 +75,9 @@ export default function ArticlePage({ articleId, news, onNavigate }: ArticlePage
       {/* Hero Image */}
       <div className="max-w-5xl mx-auto px-6 lg:px-12 mb-16">
         <div className="w-full aspect-[21/9] rounded-[2rem] overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
-          <img 
-            src={article.img_url} 
-            alt={article.title} 
+          <img
+            src={article.img_url}
+            alt={article.title}
             className="w-full h-full object-cover"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
@@ -112,7 +112,7 @@ export default function ArticlePage({ articleId, news, onNavigate }: ArticlePage
               <svg className="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {otherArticles.map((item, idx) => {
               if (!item) {

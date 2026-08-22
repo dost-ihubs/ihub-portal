@@ -55,9 +55,9 @@
   }
 }
 
-html {
-  zoom: 80%;
-}
+/* html {
+  zoom: 90%;
+} */
 
 /* @keyframes marquee {
   from {
@@ -81,7 +81,7 @@ html {
 /* Custom Leaflet Map Container & Layers */
 .leaflet-container {
   @apply w-full h-full bg-slate-100 outline-none;
-  /* background-color: var(--color-dark-blue, #002f6c); */
+  background-color: #DBEFFF;
 }
 
 .region-path {

@@ -22,6 +22,7 @@ interface MapViewProps {
   hideLegend?: boolean;
   forceShowAllPins?: boolean;
   scrollZoom?: boolean;
+  disableHover?: boolean;   // ← new
 }
 
 function styleRegionFeature(props: CustomFeatureProperties | undefined, activeRegion: string | null): L.PathOptions {
@@ -72,6 +73,7 @@ export default function MapView({
   hideLegend,
   forceShowAllPins,
   scrollZoom = true,
+  disableHover = false,
 }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -139,22 +141,24 @@ export default function MapView({
       onEachFeature: (feature, layer) => {
         const props = feature.properties as CustomFeatureProperties;
         layer.on({
-          mouseover: (e) => {
-            if (activeRegion !== null) return;
-            onRegionHover(props);
-            const target = e.target as L.Path;
-            target.setStyle({
-              fillColor: "var(--color-region-hover, #6ba8f7)",
-              fillOpacity: 0.95,
-            });
-            target.bringToFront();
-          },
-          mouseout: (e) => {
-            if (activeRegion !== null) return;
-            onRegionLeave();
-            const target = e.target as L.Path;
-            target.setStyle(styleRegionFeature(props, activeRegion));
-          },
+          ...(disableHover ? {} : {
+            mouseover: (e) => {
+              if (activeRegion !== null) return;
+              onRegionHover(props);
+              const target = e.target as L.Path;
+              target.setStyle({
+                fillColor: "var(--color-region-hover, #6ba8f7)",
+                fillOpacity: 0.95,
+              });
+              target.bringToFront();
+            },
+            mouseout: (e) => {
+              if (activeRegion !== null) return;
+              onRegionLeave();
+              const target = e.target as L.Path;
+              target.setStyle(styleRegionFeature(props, activeRegion));
+            },
+          }),
           click: () => {
             if (props.ISO !== activeRegion) onRegionSelect(props.ISO);
           },
@@ -179,7 +183,7 @@ export default function MapView({
       map.setView([12.5, 122.0], 6);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [regionsGeoJsonData, activeRegion]);
+  }, [regionsGeoJsonData, activeRegion, disableHover]);
 
   // Provinces layer: only present while a region is selected
   useEffect(() => {
@@ -266,7 +270,7 @@ export default function MapView({
 
   return (
     <main
-      className="w-full h-full relative bg-[#eaf4ff] flex flex-col min-h-[400px]"
+      className="w-full h-full relative bg-[#DBEFFF] flex flex-col min-h-[400px]"
       aria-label="Interactive Map of the Philippines"
     >
       <div ref={containerRef} className="absolute inset-0 z-0" />
