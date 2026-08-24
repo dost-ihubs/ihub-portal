@@ -28,7 +28,7 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
             The DOST Innovation Hub (iHub) plays a critical role in the overall development and success of startups, strengthening the Philippine innovation ecosystem from the ground up.
           </p>
 
-          <button className="font-dmsans text-sm px-7 py-3 bg-sky-500 hover:bg-sky-400 transition-colors text-white rounded-full font-semibold shadow-lg w-fit">
+          <button onClick={() => onNavigate && onNavigate("about")} className="font-dmsans text-sm px-7 py-3 bg-sky-500 hover:bg-sky-400 transition-colors text-white rounded-full font-semibold shadow-lg w-fit">
             Learn more
           </button>
         </div>
@@ -43,12 +43,25 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
             <p className="text-slate-800 text-sm font-dmsans font-medium leading-snug">
               Find out about the latest events
             </p>
-            <span className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-[#002E6A] text-white flex items-center justify-center shadow-md">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
+            <button
+              type="button"
+              onClick={() => onNavigate && onNavigate("news")}
+              className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-[#002E6A] text-white flex items-center justify-center shadow-md hover:bg-sky-500 transition-colors"
+              aria-label="View news"
+            >
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
               </svg>
-            </span>
+            </button>
           </div>
         </div>
 
