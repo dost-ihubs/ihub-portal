@@ -193,7 +193,7 @@ export function AboutSection({
   return (
     <section className="py-24 px-6 lg:px-12 bg-white max-w-[1250px] mx-auto w-full">
       <div className="flex justify-center mb-16">
-        <div className="px-6 py-2 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-medium">
+        <div className="px-6 py-2 bg-sky-50 text-[#003F6A] border border-sky-100 rounded-full text-sm font-medium">
           About iHubs
         </div>
       </div>
@@ -332,7 +332,7 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
         {/* Header row */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div>
-            <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
+            <span className="inline-block px-4 py-1.5 bg-sky-50 text-[#003F6A] border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
               Newsroom
             </span>
             <h2 className="text-[64px] font-poppins font-medium text-[#003F6A] tracking-tight">
@@ -398,7 +398,7 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
 export function PartnersSection() {
   return (
     <section className="py-24 px-6 lg:px-12 bg-white text-center">
-      <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
+      <span className="inline-block px-4 py-1.5 bg-sky-50 text-[#003F6A] border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
         Partners
       </span>
       <h2 className="max-w-[700px] mx-auto text-[32px] font-poppins font-medium text-[#003F6A] tracking-tight">Powered by a growing ecosystem</h2>
