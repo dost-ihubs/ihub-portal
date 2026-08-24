@@ -24,11 +24,11 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
             Innovation Starts Here
           </h1>
 
-          <p className="font-poppins text-white text-base lg:text-lg leading-relaxed">
+          <p className="font-dmsans text-white lg:text-lg leading-snug">
             The DOST Innovation Hub (iHub) plays a critical role in the overall development and success of startups, strengthening the Philippine innovation ecosystem from the ground up.
           </p>
 
-          <button className="font-poppins text-sm px-7 py-3 bg-sky-500 hover:bg-sky-400 transition-colors text-white rounded-full font-semibold shadow-lg w-fit">
+          <button className="font-dmsans text-sm px-7 py-3 bg-sky-500 hover:bg-sky-400 transition-colors text-white rounded-full font-semibold shadow-lg w-fit">
             Learn more
           </button>
         </div>
@@ -40,7 +40,7 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
         {/* Top-left: latest events card, arrow badge overlapping its corner */}
         <div className="absolute top-6 left-6 z-20">
           <div className="relative w-48 bg-white rounded-2xl shadow-sm p-4 pr-8">
-            <p className="text-slate-800 text-sm font-poppins leading-snug">
+            <p className="text-slate-800 text-sm font-dmsans font-medium leading-snug">
               Find out about the latest events
             </p>
             <span className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-[#002E6A] text-white flex items-center justify-center shadow-md">
@@ -55,7 +55,7 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
         {/* Top-right, offset lower: directory pill */}
         <button
           onClick={() => onNavigate && onNavigate("find")}
-          className="absolute top-[190px] right-6 z-20 inline-flex items-center bg-[#002E6A] hover:bg-[#00375d] transition-colors text-white px-5 py-2.5 rounded-full text-xs font-poppins font-semibold shadow-sm"
+          className="absolute top-[190px] right-6 z-20 inline-flex items-center bg-[#002E6A] hover:bg-[#00375d] transition-colors text-white px-5 py-2.5 rounded-full text-xs font-dmsans font-medium shadow-sm"
         >
           Check out directory
         </button>
@@ -79,7 +79,7 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
         <div className="absolute bottom-6 left-6 z-20">
 
           <a href="#"
-            className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-800 pl-1.5 pr-4 py-1.5 rounded-full text-xs font-poppins font-medium shadow-sm hover:bg-white transition-colors w-fit"
+            className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-800 pl-1.5 pr-4 py-1.5 rounded-full text-xs font-dmsans font-medium shadow-sm hover:bg-white transition-colors w-fit"
           >
             <span className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center flex-shrink-0">
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z" /></svg>
@@ -118,12 +118,12 @@ export function IHubNetworkSection({
   return (
     <section className="py-24 px-6 lg:px-12 flex flex-col items-center">
       <h2 className="font-poppins text-[64px] text-white tracking-tight text-center mb-4">The iHub Network</h2>
-      <p className="text-white text-[16px] font-poppins text-center max-w-xl mb-8 leading-relaxed">
+      <p className="text-white text-[16px] font-dmsans font-medium text-center max-w-xl mb-8 leading-relaxed">
         The current iHub network spans 17 regions, with 59 hubs established nationwide. Explore the iHub Directory to discover the hubs across the country.
       </p>
       <button
         onClick={() => onNavigate && onNavigate("find")}
-        className="mb-12 px-6 py-2.5 border border-slate-300 rounded-full text-sm font-poppins font-medium text-white hover:bg-sky-500 transition-colors"
+        className="mb-12 px-6 py-2.5 border-2 border-white rounded-full text-sm font-dmsans font-medium text-white hover:bg-sky-500 transition-colors"
       >
         Explore directory
       </button>
@@ -134,8 +134,8 @@ export function IHubNetworkSection({
             key={stat.label}
             className={`bg-white rounded-3xl border border-slate-100 shadow-md p-6 flex flex-col gap-2 transform-gpu ${stat.tilt} hover:rotate-0 hover:-translate-y-1 hover:shadow-xl transition-transform duration-300 ease-out will-change-transform`}
           >
-            <p className="text-[#002E6A] text-[16px] font-poppins font-semibold leading-snug">{stat.label}</p>
-            <p className={`font-poppins text-[96px] font-semibold ${stat.color}`}>{stat.value}</p>
+            <p className="text-[#002E6A] text-[16px] font-dmsans font-semibold leading-snug">{stat.label}</p>
+            <p className={`font-dmsans text-[96px] font-semibold ${stat.color}`}>{stat.value}</p>
           </div>
         ))}
       </div>
@@ -160,7 +160,13 @@ function pickRandomHubs(hubs: IHub[], count: number): IHub[] {
 
 const CAROUSEL_SIZE = 4;
 
-export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
+export function AboutSection({
+  hubs = [],
+  onNavigate,
+}: {
+  hubs?: IHub[];
+  onNavigate?: (page: Page) => void;
+}) {
   const [featured, setFeatured] = useState<IHub[]>([]);
   const [fadeOut, setFadeOut] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -199,15 +205,15 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
           </h2>
         </div>
         <div className="pt-2">
-          <p className="text-slate-700 text-lg leading-relaxed mb-4">
+          <p className="text-slate-700 font-dmsans text-lg leading-relaxed mb-4">
             The iHub or Innovation Hub is a space where individuals and groups can meet, interact, develop new ideas, and find solutions that address economic and social problems and be ready to become innovative startups. It is a nationwide initiative of the Department of Science and Technology (DOST) to establish iHubs in every province in the Philippines.
           </p>
-          <a href="#" className="inline-flex items-center text-sky-500 font-medium hover:text-sky-600 transition-colors">
-            Learn more about iHubs
-            <svg className="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
+          <button
+            onClick={() => onNavigate && onNavigate("about")}
+            className="inline-flex items-center px-6 py-2.5 border-2 border-sky-500 rounded-full text-[14px] font-dmsans font-medium text-sky-500 hover:bg-white transition-colors"
+          >
+            Learn more
+          </button>
         </div>
       </div>
 
@@ -242,7 +248,7 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 <h3
                   className={
-                    "font-medium text-white mb-1 transition-all duration-300 " +
+                    "font-semibold font-dmsans text-white mb-1 transition-all duration-300 " +
                     (isActive ? "text-xl opacity-100" : "text-sm opacity-90 line-clamp-2")
                   }
                 >
@@ -250,7 +256,7 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
                 </h3>
                 <p
                   className={
-                    "text-slate-200 text-xs mb-3 transition-opacity duration-300 " +
+                    "font-medium font-dmsans text-slate-200 text-xs mb-3 transition-opacity duration-300 " +
                     (isActive ? "opacity-100" : "opacity-0 h-0")
                   }
                 >
@@ -258,12 +264,11 @@ export function AboutSection({ hubs = [] }: { hubs?: IHub[] }) {
                 </p>
                 <span
                   className={
-                    "inline-flex items-center gap-1.5 bg-white text-slate-800 rounded-full text-[11px] font-poppins font-semibold px-3 py-1.5 transition-all duration-300 " +
+                    "inline-flex items-center gap-1.5 bg-white text-[#0C366D] rounded-full text-[11px] font-dmsans font-semibold px-3 py-1.5 transition-all duration-300 " +
                     (isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none")
                   }
                 >
-                  Explore hub
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  EXPLORE IHUB
                 </span>
               </div>
             </div>
@@ -327,7 +332,7 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
         {/* Header row */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div>
-            <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-medium mb-6">
+            <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
               Newsroom
             </span>
             <h2 className="text-[64px] font-poppins font-medium text-[#003F6A] tracking-tight">
@@ -335,14 +340,14 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
             </h2>
           </div>
           <div className="max-w-sm">
-            <p className="text-slate-700 text-lg leading-relaxed mb-4">
+            <p className="text-slate-700 text-lg font-dmsans leading-relaxed mb-4">
               Discover the latest news, activities, and developments from Innovation Hubs across the Philippines, and stay informed about initiatives supporting innovation and entrepreneurship.
             </p>
-            <button onClick={() => onNavigate && onNavigate("news")} className="inline-flex items-center text-sky-500 font-medium hover:text-sky-600 transition-colors">
+            <button
+              onClick={() => onNavigate && onNavigate("news")}
+              className="inline-flex items-center px-6 py-2.5 border-2 border-sky-500 rounded-full text-[14px] font-dmsans font-medium text-sky-500 hover:bg-white transition-colors"
+            >
               View all news
-              <svg className="w-4 h-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
             </button>
           </div>
         </div>
@@ -393,10 +398,12 @@ export function NewsSection({ news: dbNews, onNavigate }: { news?: NewsArticle[]
 export function PartnersSection() {
   return (
     <section className="py-24 px-6 lg:px-12 bg-white text-center">
-      <span className="text-slate-400 font-semibold tracking-wider uppercase text-sm mb-3 block">Partners</span>
+      <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
+        Partners
+      </span>
       <h2 className="max-w-[700px] mx-auto text-[32px] font-poppins font-medium text-[#003F6A] tracking-tight">Powered by a growing ecosystem</h2>
 
-      <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-20 max-w-[1200px] mx-auto">
+      <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-20 max-w-[1200px] mx-auto mt-12">
         <img src="/assets/wadwhaniLogo.png" alt="Wadhwani Foundation" className="h-16 w-auto object-contain" />
         <img src="/assets/pcci_logo.webp" alt="PCCI" className="h-20 w-auto object-contain" />
         <img src="/assets/devcon_logo.png" alt="DEVCON" className="h-12 w-auto object-contain" />
@@ -472,16 +479,14 @@ export function CTASection() {
         {/* Left: solid blue text panel */}
         <div className="relative z-10 p-10 lg:p-14 text-white flex-1 flex flex-col justify-center">
           <h2 className="text-[56px] font-poppins font-medium mb-3 leading-tight">Collect your iMugs</h2>
-          <p className="font-poppins text-blue-50 text-[16px]sm lg:text-base mb-6 leading-relaxed max-w-sm">
+          <p className="font-dmsans text-white text-[16px]sm lg:text-base mb-6 leading-relaxed max-w-sm">
             Experience innovation across the Philippines. Visit Innovation Hubs, discover local innovators, and collect an iMug along the way.
           </p>
-          <a href="#" className="inline-flex items-center text-white font-semibold hover:text-blue-50 transition-colors w-fit">
+          <button
+            className="inline-flex items-center px-6 py-2.5 border-2 border-white rounded-full text-sm font-dmsans font-medium text-white hover:bg-white hover:text-sky-500 transition-colors w-fit"
+          >
             Start collecting
-            <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
+          </button>
         </div>
 
         {/* Right: contained image, not stretched */}

@@ -281,12 +281,12 @@ export default function MapView({
           aria-label="Map Legend"
         >
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-purple-500 inline-block"></span>
-            <span>Regional iHub</span>
+            <span className="w-3 h-3 rounded-full bg-purple-500 inline-block font-dmsans"></span>
+            <span className="font-dmsans text-slate-700">Regional iHub</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
-            <span>Provincial iHub</span>
+            <span className="w-3 h-3 rounded-full bg-red-500 inline-block font-dmsans"></span>
+            <span className="font-dmsans text-slate-700">Provincial iHub</span>
           </div>
           <label className="flex items-center gap-2 pt-2 border-t border-slate-200 cursor-pointer font-normal text-[11px] text-slate-600">
             <input
@@ -295,7 +295,7 @@ export default function MapView({
               onChange={(e) => onToggleShowAllPins(e.target.checked)}
               className="rounded border-slate-300 text-brand-blue focus:ring-brand-blue"
             />
-            <span>Show all pins nationwide</span>
+            <span className="font-dmsans text-slate-700">Show all pins nationwide</span>
           </label>
         </div>
       )}

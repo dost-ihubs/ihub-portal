@@ -46,11 +46,11 @@ export default function IHubModal({ hub, onClose }: IHubModalProps) {
             />
             <div className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
               <div>
-                <h2 className="font-title text-xl font-black text-slate-900 leading-snug">{hub.name}</h2>
+                <h2 className="font-dmsans font-bold text-xl text-[#002E6A] leading-snug">{hub.name}</h2>
                 <p className="text-xs text-slate-500 mt-1">{hub.address}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100 text-xs">
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100 text-xs font-body">
                 <Field label="Launch Date" value={hub.launch_date} />
                 <Field label="Focal Person" value={hub.focal_person} />
                 <Field label="Contact Number" value={hub.contact_number} />
@@ -59,7 +59,7 @@ export default function IHubModal({ hub, onClose }: IHubModalProps) {
 
               <hr className="border-slate-100" />
 
-              <div className="space-y-2 text-xs">
+              <div className="space-y-2 text-xs font-body">
                 <Field label="Internet Connectivity Status" value={hub.connectivity_status} block />
                 <Field label="Internet Service Provider" value={hub.isp} block />
                 <Field label="ICT-related assistance needed" value={hub.ict_assistance} block />
@@ -85,8 +85,8 @@ function Field({
 }) {
   return (
     <div className={block ? "" : undefined}>
-      <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</span>
-      <span className={"font-semibold text-slate-800" + (truncate ? " truncate block" : "")}>{value || "N/A"}</span>
+      <span className="block text-[10px] font-bold text-slate-400 font-dmsans uppercase tracking-wider">{label}</span>
+      <span className={"font-dmsans font-semibold text-slate-800" + (truncate ? " truncate block" : "")}>{value || "N/A"}</span>
     </div>
   );
 }

@@ -39,7 +39,7 @@ export default function LandingPage({ heroMapComponent, mapComponent, hubs, news
         </div>
       </div>
 
-      <AboutSection hubs={hubs} />
+      <AboutSection hubs={hubs} onNavigate={onNavigate} />
       <NewsSection news={news} onNavigate={onNavigate} />
       <PartnersSection />
       <CTASection />
