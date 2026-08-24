@@ -91,7 +91,7 @@ export function HeroSection({ mapComponent, onNavigate }: { mapComponent?: React
         {/* Bottom-left: social badge */}
         <div className="absolute bottom-6 left-6 z-20">
 
-          <a href="#"
+          <a href="https://www.facebook.com/profile.php?id=61593523025331"
             className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-slate-800 pl-1.5 pr-4 py-1.5 rounded-full text-xs font-dmsans font-medium shadow-sm hover:bg-white transition-colors w-fit"
           >
             <span className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center flex-shrink-0">
