@@ -87,7 +87,7 @@ const STRATEGIES: IhubStrategy[] = [
     services: [
       {
         title: "Idea Pitching",
-        image: "/assets/pitching.png",
+        image: "/assets/pitching.JPG",
         description:
           "Presenting ideas to gain support from investors, partners, and stakeholders.",
       },
@@ -99,7 +99,7 @@ const STRATEGIES: IhubStrategy[] = [
       },
       {
         title: "Talent Matching",
-        image: "https://picsum.photos/seed/ihub-talent-matching/700/520",
+        image: "/assets/talent-matching.JPG",
         description:
           "Connecting startups with skilled teams to build impactful solutions.",
       },
@@ -122,7 +122,7 @@ const STRATEGIES: IhubStrategy[] = [
       },
       {
         title: "One-on-one consultation",
-        image: "https://picsum.photos/seed/ihub-consultation/700/520",
+        image: "/assets/1on1_consult.jpeg",
         description:
           "One-on-one mentoring to refine ideas and support startup growth.",
       },
@@ -134,7 +134,7 @@ const STRATEGIES: IhubStrategy[] = [
       },
       {
         title: "Hackathon ",
-        image: "/assets/hackathon.png",
+        image: "/assets/hackathon.jpg",
         description:
           "Bringing developers, data scientists, and AI enthusiasts  to solve real-world problems.",
       },
@@ -334,14 +334,14 @@ function StrategyServicesSection({
               <img src={strategy.icon} alt="" className="h-21 w-21 rounded-[1rem] object-contain" />
             </span>
             <span
-              className="font-poppins text-sm font-bold uppercase tracking-[0.18em]"
+              className="font-dmsans text-sm font-bold  uppercase tracking-[0.18em]"
               style={{ color: strategy.accent }}
             >
               {strategy.label}
             </span>
           </div>
 
-          <h2 className="font-poppins text-3xl md:text-4xl font-bold text-slate-800 leading-tight">
+          <h2 className="font-poppins text-3xl md:text-4xl font-semibold text-[#00375D] leading-tight">
             {strategy.headline}
           </h2>
 
@@ -363,7 +363,7 @@ function StrategyServicesSection({
 
                     <div className="min-w-0 flex-1">
                       <h3
-                        className={`font-poppins font-bold transition-colors duration-300 ${active ? "text-slate-800" : "text-slate-400"
+                        className={`font-poppins font-bold transition-colors duration-300 ${active ? "text-[#002E6A]" : "text-slate-400"
                           }`}
                       >
                         {item.title}
@@ -376,7 +376,7 @@ function StrategyServicesSection({
                           }`}
                       >
                         <div className="overflow-hidden">
-                          <p className="text-sm text-slate-500 font-body leading-relaxed">
+                          <p className="text-sm text-slate-500 font-dmsans leading-relaxed">
                             {item.description}
                           </p>
 
@@ -496,7 +496,7 @@ export default function AboutPage() {
       {/* ------------------------------------------------------------- */}
       <section className="max-w-4xl mx-auto px-6 pb-20 space-y-10">
         <div className="grid md:grid-cols-[220px_1fr] gap-4 items-start">
-          <h2 className="font-poppins text-3xl font-bold text-slate-800">
+          <h2 className="font-poppins text-3xl font-semibold text-[#00375D]">
             Our Vision
           </h2>
           <p className="text-slate-500 text-sm md:text-base font-body">
@@ -505,7 +505,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="grid md:grid-cols-[220px_1fr] gap-4 items-start">
-          <h2 className="font-poppins text-3xl font-bold text-slate-800">
+          <h2 className="font-poppins text-3xl font-semibold text-[#00375D]">
             Our Mission
           </h2>
           <p className="text-slate-500 text-sm md:text-base font-body">
@@ -519,7 +519,7 @@ export default function AboutPage() {
       {/* The 4Is Strategy */}
       {/* ------------------------------------------------------------- */}
       <section className="relative overflow-hidden bg-gradient-to-b from-sky-100 to-sky-200 py-16 px-6">
-        <h2 className="font-poppins text-4xl md:text-5xl font-bold text-white text-center">
+        <h2 className="font-poppins text-4xl md:text-5xl font-semibold text-[#002E6A] text-center">
           The 4Is Strategy
         </h2>
 
@@ -553,24 +553,32 @@ export default function AboutPage() {
             <div className="inline-flex items-center gap-2 mb-4">
               <div className="inline-flex items-center gap-2 mb-4">
                 <img src={strategy.icon} alt="" className="h-8 w-8 object-contain rounded-md" />
-                <span className="font-poppins font-semibold text-slate-800">
+                <span className="font-poppins font-semibold text-[#00375D]">
                   {strategy.label}
                 </span>
               </div>
             </div>
             <p
               key={strategy.id}
-              className="font-poppins text-2xl md:text-3xl font-semibold text-slate-800 mb-2 transition-opacity duration-500"
+              className="font-poppins text-2xl md:text-3xl font-semibold text-[#00375D] mb-2 transition-opacity duration-500 text-[#002E6A]"
             >
               {strategy.headline}
             </p>
-            <a
-              href={`#${strategy.id}-services`}
-              className="inline-flex text-sm font-semibold transition-colors duration-500 hover:opacity-75"
-              style={{ color: strategy.accent }}
+            <button
+              type="button"
+              onClick={() =>
+                document
+                  .getElementById(`${strategy.id}-services`)
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="inline-flex items-center px-5 py-2.5 border-2 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-80 mt-6"
+              style={{
+                color: strategy.accent,
+                borderColor: strategy.accent,
+              }}
             >
-              Explore {strategy.label} services &rarr;
-            </a>
+              Explore {strategy.label} services
+            </button>
           </div>
 
           {/* Photo with animated pastel frame */}
@@ -613,7 +621,7 @@ export default function AboutPage() {
       {/* What iHub Offers — collapsible list */}
       {/* ------------------------------------------------------------- */}
       <section className="bg-gradient-to-b from-sky-100 to-sky-300 py-16 px-6">
-        <h2 className="font-poppins text-4xl md:text-5xl font-bold text-white text-center mb-10">
+        <h2 className="font-poppins text-4xl md:text-5xl font-semibold text-[#002E6A] text-center mb-10">
           What iHub Offers
         </h2>
 
@@ -638,7 +646,7 @@ export default function AboutPage() {
                     {active ? (
                       <div className="h-full grid md:grid-cols-2 gap-4 md:gap-8 p-2 md:p-6 items-center text-left">
                         <div>
-                          <h3 className="font-poppins text-xl md:text-3xl font-bold text-slate-800 mb-3">
+                          <h3 className="font-poppins text-xl md:text-3xl font-semibold text-[#00375D] mb-3">
                             {offer.title}
                           </h3>
                           <p className="text-slate-500 text-sm md:text-base font-body">

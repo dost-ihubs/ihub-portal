@@ -102,7 +102,7 @@ const Carousel = memo(
         const rotation = useMotionValue(0)
         const transform = useTransform(
             rotation,
-            (value) => `rotate3d(0, 1, 0, ${value}deg)`
+            (value: number) => `rotate3d(0, 1, 0, ${value}deg)`
         )
 
         return (
@@ -172,7 +172,20 @@ const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba
 function ThreeDPhotoCarousel() {
     const controls = useAnimation()
     const cards = useMemo(
-        () => keywords.map((keyword) => `https://picsum.photos/200/300?${keyword}`),
+        () => ["https://lh3.googleusercontent.com/d/1VPAH2MpgCtOvzeOdF9BbV18L8tSae3jX",
+            "https://lh3.googleusercontent.com/d/1V2DwajCM2nvShtmgL7BOGewCsVwzYz-B",
+            "https://lh3.googleusercontent.com/d/18um4e_dcQKw6XDgVdnBI8DG5LDUzndKn",
+            "https://lh3.googleusercontent.com/d/1KS_6wV99OKFgu05Neloa9uAfQ_JsBMeE",
+            "https://lh3.googleusercontent.com/d/1kJEFNcBgEzixJr2BdhcscNf92wKg7hQ9",
+            "https://lh3.googleusercontent.com/d/13K2QZB17APxm8fhlNhfNE_Z_tw830EyR",
+            "https://lh3.googleusercontent.com/d/1PFawQ9f_dZe-IkfMg8IP4wpV6A-nspGE",
+            "https://lh3.googleusercontent.com/d/1ZkaZd7I0Pm7-5RdxsxrObpWQd19smDe8",
+            "https://lh3.googleusercontent.com/d/1G1GRjdGdNRvTjRJdkWlDOWxtyu7Mmt_0",
+            "https://lh3.googleusercontent.com/d/1-FHoWjD0DZjKvPCLEaT5OCAVhUMkncR3",
+            "https://lh3.googleusercontent.com/d/10R1XM5GfaJvPE2CVMN2_HMDcPbVrhfIz",
+            "https://lh3.googleusercontent.com/d/1ZcY4ZBxLUIfq-tFGoiQdRQrbrGG4qcXO",
+            "https://lh3.googleusercontent.com/d/19oVgBAxTWVoumeDGQMqVspfNT22qDB4d"
+        ],
         []
     )
 

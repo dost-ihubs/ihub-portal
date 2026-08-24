@@ -113,7 +113,7 @@ export default function Sidebar({
             <input
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 font-poppins border border-slate-200 rounded-full text-sm placeholder-slate-400 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 font-dmsans border border-slate-200 rounded-full text-sm placeholder-slate-400 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all"
               type="search"
               placeholder="Search for an iHub..."
               aria-label="Search Innovation Hubs"
@@ -131,9 +131,9 @@ export default function Sidebar({
                     key={region.region_iso}
                     type="button"
                     onClick={() => onRegionSelect(region.region_iso)}
-                    className="flex items-center font-poppins justify-between w-full px-5 py-3 bg-white hover:bg-brand-light/50 border border-slate-200 rounded-full transition-all duration-200 group text-left"
+                    className="flex items-center font-dmsans justify-between w-full px-5 py-3 bg-white hover:bg-brand-light/50 border border-slate-200 rounded-full transition-all duration-200 group text-left"
                   >
-                    <span className="font-poppins font-semibold text-xs text-slate-700 group-hover:text-brand-blue">{region.region_name}</span>
+                    <span className="font-dmsans font-bold text-xs text-slate-700 group-hover:text-brand-blue">{region.region_name}</span>
                     <svg className="w-4 h-4 text-slate-400 group-hover:text-brand-blue transform group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
@@ -148,7 +148,7 @@ export default function Sidebar({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <div className="font-poppins font-bold text-slate-700 text-base mb-1">No Innovation Hubs found</div>
+              <div className="font-dmsans font-bold text-slate-700 text-base mb-1">No Innovation Hubs found</div>
               <div className="text-xs text-slate-500">Try modifying your search or select another region.</div>
             </div>
           )}
@@ -160,7 +160,7 @@ export default function Sidebar({
                 <div key={provName}>
                   <div
                     className={
-                      "font-poppins text-xs font-extrabold uppercase tracking-wider text-slate-400 my-2 px-1 " +
+                      "font-dmsans text-xs font-extrabold uppercase tracking-wider text-slate-400 my-2 px-1 " +
                       (activeProvince === provinceIso ? "text-brand-blue" : "")
                     }
                   >
@@ -170,8 +170,8 @@ export default function Sidebar({
                     const isActive = activeIHub === hub.id;
                     const badgeClass =
                       hub.type === "Regional iHub"
-                        ? "bg-brand-blue/10 text-brand-blue font-semibold"
-                        : "bg-emerald-50 text-emerald-700 font-semibold";
+                        ? "bg-brand-blue/10 text-brand-blue font-dmsans font-semibold"
+                        : "bg-emerald-50 text-emerald-700 font-dmsans font-semibold";
                     return (
                       <div
                         key={hub.id}
@@ -183,10 +183,10 @@ export default function Sidebar({
                         }
                       >
                         <div className="flex-1 min-w-0">
-                          <div className="font-title font-bold text-slate-800 text-sm group-hover:text-brand-blue transition-colors leading-snug">{hub.name}</div>
-                          <div className="text-xs font-medium text-slate-600 mt-0.5 truncate">{hub.institution}</div>
-                          <div className="text-[11px] text-slate-400 mt-1 line-clamp-1">{hub.address}</div>
-                          <div className={"inline-block px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wide mt-2 " + badgeClass}>{hub.type}</div>
+                          <div className="font-body font-bold text-[#002E6A] text-sm group-hover:text-brand-blue transition-colors leading-snug">{hub.name}</div>
+                          <div className="text-xs font-body font-medium text-slate-600 mt-0.5 truncate">{hub.institution}</div>
+                          <div className="text-[11px] font-body text-slate-400 mt-1 line-clamp-1">{hub.address}</div>
+                          <div className={"font-dmsans font-medium inline-block px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wide mt-2 " + badgeClass}>{hub.type}</div>
                         </div>
                         <img
                           className="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-slate-100"

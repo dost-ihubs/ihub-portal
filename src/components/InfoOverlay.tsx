@@ -17,10 +17,10 @@ export default function InfoOverlay({ visible, label, count, regionInfo }: InfoO
       aria-live="polite"
     >
       <div className="flex items-center justify-between mb-2 pb-2 border-b border-slate-100 gap-5">
-        <div className="font-poppins text-base font-extrabold text-brand-blue">{label}</div>
+        <div className="font-dmsans text-base font-extrabold text-brand-blue">{label}</div>
         <div className="px-2.5 py-0.5 rounded-full bg-brand-blue/10 border border-brand-blue/30 flex items-center gap-1">
-          <span className="font-poppins text-sm font-bold text-brand-blue">{count}</span>
-          <span className="text-[10px] uppercase font-semibold text-slate-500">iHubs</span>
+          <span className="font-dmsans text-sm font-bold text-brand-blue">{count}</span>
+          <span className="text-[10px] font-dmsans font-semibold text-slate-500">iHubs</span>
         </div>
       </div>
       <div className="text-xs space-y-1">
