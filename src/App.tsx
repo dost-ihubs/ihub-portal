@@ -9,14 +9,10 @@ import Sidebar from "./components/Sidebar";
 import IHubModal from "./components/IHubModal";
 import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
-import HowItWorksPage from "./pages/HowItWorksPage";
-import ProgramsPage from "./pages/ProgramsPage";
-import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
 import FindPage from "./pages/FindPage";
 import NewsPage from "./pages/NewsPage";
 import ArticlePage from "./pages/ArticlePage";
-import AdminPage from "./pages/AdminPage";
 
 interface HoverInfo {
   visible: boolean;
@@ -146,14 +142,9 @@ export default function App() {
 
       <div className="flex-1 overflow-y-auto">
         {activePage === "about" && <AboutPage />}
-        {activePage === "how-it-works" && <HowItWorksPage />}
-        {activePage === "programs" && <ProgramsPage />}
-        {activePage === "resources" && <ResourcesPage />}
         {activePage === "contact" && <ContactPage />}
         {activePage === "news" && <NewsPage news={database.news} onNavigate={navigate} />}
         {activePage === "article" && <ArticlePage articleId={activeArticleId} news={database.news} onNavigate={navigate} />}
-        {activePage === "admin" && <AdminPage />}
-
         {activePage === "home" && (
           <LandingPage
             hubs={database.ihubs}
