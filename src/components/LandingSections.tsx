@@ -427,64 +427,6 @@ export function PartnersSection() {
   );
 }
 
-// export function PartnersSection() {
-//   const partners = [
-//     { src: "/assets/wadwhaniLogo.png", alt: "Wadhwani Foundation", className: "h-16" },
-//     { src: "/assets/pcci_logo.webp", alt: "PCCI", className: "h-20" },
-//     { src: "/assets/devcon_logo.png", alt: "DEVCON", className: "h-12" },
-//     { src: "/assets/leaveanestlogo.webp", alt: "Leave a Nest", className: "h-12" },
-//     { src: "/assets/gdap_logo.webp", alt: "GDAP", className: "h-16" },
-//   ];
-
-//   return (
-//     <section className="py-24 px-6 lg:px-12 bg-white text-center">
-//       <div className="flex justify-center mb-6">
-//         <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-medium">
-//           Partners
-//         </span>
-//       </div>
-//       <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 tracking-tight mb-16">Powered by a growing ecosystem</h2>
-
-//       <div className="overflow-hidden">
-//         <div className="flex items-center gap-12 lg:gap-20 w-max animate-marquee">
-//           {[...partners, ...partners].map((partner, idx) => (
-//             <img
-//               key={`${partner.alt}-${idx}`}
-//               src={partner.src}
-//               alt={partner.alt}
-//               className={`${partner.className} w-auto object-contain flex-shrink-0`}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-// export function CTASection() {
-//   return (
-//     <section className="py-12 px-6 lg:px-12 bg-white pb-24">
-//       <div className="max-w-[1200px] mx-auto relative rounded-[40px] overflow-hidden bg-gradient-to-r from-sky-400 to-blue-500 shadow-2xl">
-//         <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-//           <div className="p-12 lg:p-20 text-white z-10">
-//             <h2 className="text-4xl lg:text-5xl font-bold mb-4">Collect your iMugs</h2>
-//             <p className="text-blue-50 text-lg mb-8 max-w-md">Experience innovation in every region. Visit our iHubs nationwide and collect them all.</p>
-//             <button className="px-8 py-3 bg-white text-brand-blue rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-//               Learn more
-//             </button>
-//           </div>
-//           <div className="relative h-64 lg:h-full">
-//             {/* We position the mug image appropriately */}
-//             <img src="/assets/iMugs.jpg" alt="iMugs Collection" className="absolute inset-0 w-full h-full object-cover object-left lg:object-center mix-blend-luminosity opacity-40 lg:opacity-100 lg:mix-blend-normal" />
-//             {/* Add a gradient fade on desktop to blend the image into the blue background */}
-//             <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-blue-500 to-transparent w-1/2"></div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
 export function CTASection() {
   return (
     <section className="py-12 px-6 lg:px-12 bg-white pb-24">
