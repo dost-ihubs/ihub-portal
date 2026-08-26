@@ -133,7 +133,7 @@ export default function NewsPage({
         </>
       )}
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </main>
   );
 }

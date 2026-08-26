@@ -3,8 +3,15 @@ import ContactDetails from "../components/contact/ContactDetails";
 import ContactForm from "../components/contact/ContactForm";
 import FacebookCTA from "../components/contact/FacebookCTA";
 import Footer from "../components/Footer";
+import type { Page } from "../components/Header";
 
-export default function ContactPage() {
+interface ContactPageProps {
+  onNavigate?: (page: Page) => void;
+}
+
+export default function ContactPage({
+  onNavigate,
+}: ContactPageProps) {
   return (
     <>
       <main className="bg-white min-h-screen pt-32 pb-24 px-6 lg:px-12">
@@ -22,7 +29,7 @@ export default function ContactPage() {
         </div>
       </main>
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </>
   );
 }

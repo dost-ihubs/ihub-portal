@@ -4,12 +4,19 @@ import StrategyOverview from "../components/about/StrategyOverview";
 import StrategyServicesSection from "../components/about/StrategyServiceSection";
 import OffersCarousel from "../components/about/OffersCarousel";
 import Footer from "../components/Footer";
+import type { Page } from "../components/Header";
+
+interface AboutPageProps {
+  onNavigate?: (page: Page) => void;
+}
 
 import {
   STRATEGIES,
 } from "../data/aboutData";
 
-export default function AboutPage() {
+export default function AboutPage({
+  onNavigate,
+}: AboutPageProps) {
   return (
     <div className="bg-slate-50">
       <style>
@@ -49,7 +56,7 @@ export default function AboutPage() {
       </section>
 
       <OffersCarousel />
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 }

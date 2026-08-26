@@ -1,4 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
+import {
+  useEffect, useState, useCallback, useRef,
+} from "react";
 import type { GeoJsonCollection, Database, IHub, DBSource, CustomFeatureProperties } from "./types";
 import { mockRegions, mockIHubs } from "./data/mockData";
 import { mergeNegrosIslandRegion } from "./utils/geo";
@@ -22,6 +24,9 @@ interface HoverInfo {
 }
 
 export default function App() {
+
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
   const [regionsGeoJsonData, setRegionsGeoJsonData] = useState<GeoJsonCollection | null>(null);
   const [provincesGeoJsonData, setProvincesGeoJsonData] = useState<GeoJsonCollection | null>(null);
 
@@ -40,11 +45,18 @@ export default function App() {
   const [activePage, setActivePage] = useState<Page>("home");
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
 
-  const navigate = useCallback((page: Page, articleId?: string) => {
-    setActivePage(page);
-    setActiveArticleId(articleId ?? null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const navigate = useCallback(
+    (page: Page, articleId?: string) => {
+      setActivePage(page);
+      setActiveArticleId(articleId ?? null);
+
+      contentRef.current?.scrollTo({
+        top: 0,
+        behavior: "auto",
+      });
+    },
+    []
+  );
 
   // ----- Initial data load (geojson + Supabase, mirrors loadData() in main.ts) -----
   useEffect(() => {
@@ -140,9 +152,14 @@ export default function App() {
     <div className="h-full flex flex-col bg-slate-50 text-slate-800 font-body antialiased selection:bg-brand-blue selection:text-white">
       <Header dbSource={dbSource} activePage={activePage} onNavigate={navigate} />
 
-      <div className="flex-1 overflow-y-auto">
-        {activePage === "about" && <AboutPage />}
-        {activePage === "contact" && <ContactPage />}
+      <div
+        ref={contentRef}
+        className="flex-1 overflow-y-auto"
+      >
+        {activePage === "about" && <AboutPage onNavigate={navigate} />}
+        {activePage === "contact" && (
+          <ContactPage onNavigate={navigate} />
+        )}
         {activePage === "news" && <NewsPage news={database.news} onNavigate={navigate} />}
         {activePage === "article" && <ArticlePage articleId={activeArticleId} news={database.news} onNavigate={navigate} />}
         {activePage === "home" && (

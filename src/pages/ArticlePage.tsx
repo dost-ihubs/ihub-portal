@@ -75,7 +75,7 @@ export default function ArticlePage({
         onNavigate={onNavigate}
       />
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </main>
   );
 }
