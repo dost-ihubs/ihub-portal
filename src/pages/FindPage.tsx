@@ -1,5 +1,5 @@
 import React from "react";
-import { FooterSection } from "../components/LandingSections";
+import Footer from "../components/Footer";
 
 interface FindPageProps {
   mapComponent?: React.ReactNode;
@@ -21,7 +21,7 @@ export default function FindPage({ mapComponent, sidebarComponent }: FindPagePro
           {sidebarComponent}
         </div>
       </div>
-      <FooterSection />
+      <Footer />
     </div>
   );
 }
