@@ -67,7 +67,7 @@ export default function LandingPage({
 
       <CTASection />
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 }
