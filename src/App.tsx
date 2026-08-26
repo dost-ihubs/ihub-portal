@@ -170,39 +170,6 @@ export default function App() {
                 forceShowAllPins={true}
                 scrollZoom={true}
                 disableHover={true}
-
-              />
-            }
-            mapComponent={
-              <MapView
-                regionsGeoJsonData={regionsGeoJsonData}
-                provincesGeoJsonData={provincesGeoJsonData}
-                database={database}
-                activeRegion={activeRegion}
-                activeProvince={activeProvince}
-                activeIHub={activeIHub}
-                showAllPinsNationwide={showAllPinsNationwide}
-                onToggleShowAllPins={setShowAllPinsNationwide}
-                onRegionSelect={selectRegion}
-                onProvinceSelect={selectProvince}
-                onHubClick={focusOnIHub}
-                hoverInfo={hoverInfo}
-                onRegionHover={handleRegionHover}
-                onRegionLeave={handleRegionLeave}
-              />
-            }
-            sidebarComponent={
-              <Sidebar
-                database={database}
-                activeRegion={activeRegion}
-                activeProvince={activeProvince}
-                activeIHub={activeIHub}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                onRegionSelect={selectRegion}
-                onHubClick={(hub) => setModalHub(hub)}
-                onBack={resetToNationalView}
-                sidebarTitle={sidebarTitle}
               />
             }
           />
