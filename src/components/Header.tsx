@@ -23,7 +23,19 @@ export default function Header({ dbSource, activePage, onNavigate }: HeaderProps
     <div className="absolute top-6 left-0 right-0 z-50 flex justify-center px-6">
       <header
         id="top-navbar"
-        className="grid grid-cols-3 items-center w-full max-w-[1400px] px-8 py-3 bg-white text-slate-800 rounded-full shadow-lg"
+        className="
+          grid
+          grid-cols-3
+          items-center
+          w-full
+          max-w-[1400px]
+          px-8
+          py-3
+          bg-white/65 backdrop-blur-xl border border-white/40
+          text-slate-800
+          rounded-full
+          shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+        "
       >
         <div className="flex items-center gap-3">
           <img src="/assets/iHubLogo.png" alt="iHub Logo" className="h-10 w-auto object-contain cursor-pointer" onClick={() => onNavigate("home")} />
