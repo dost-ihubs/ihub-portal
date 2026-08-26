@@ -54,7 +54,7 @@ export default function NewsSection({
                             Newsroom
                         </span>
 
-                        <h2 className="text-4xl md:text-[64px] font-poppins font-medium text-[#003F6A] tracking-tight">
+                        <h2 className="text-4xl md:text-[54px] leading-[1.2] font-poppins font-medium text-[#003F6A]">
                             Latest news and
                             <br />
                             updates

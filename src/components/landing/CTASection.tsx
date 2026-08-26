@@ -15,12 +15,6 @@ export default function CTASection() {
                         along the way.
                     </p>
 
-                    <button
-                        type="button"
-                        className="inline-flex items-center px-6 py-2.5 border-2 border-white rounded-full text-sm font-dmsans font-medium text-white hover:bg-white hover:text-sky-500 transition-colors w-fit"
-                    >
-                        Start collecting
-                    </button>
                 </div>
 
                 <div className="relative flex-1 min-h-[220px] lg:min-h-0 overflow-hidden">

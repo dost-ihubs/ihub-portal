@@ -25,7 +25,7 @@ export default function AboutSection({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start mb-16">
-                <h2 className="text-4xl md:text-[64px] font-poppins font-medium text-[#003F6A] tracking-tight">
+                <h2 className="text-4xl md:text-[54px] font-poppins font-medium text-[#003F6A] tracking-tight">
                     What is an iHub?
                 </h2>
 
