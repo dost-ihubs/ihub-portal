@@ -43,6 +43,10 @@ export interface NewsArticle {
   region: string;
   province: string;
   img_url: string;
+  img_urls?: string[] | string;
+  images?: string[] | string;
+  image_urls?: string[] | string;
+  image_url?: string;
   content: string;
   created_at: string;
 }

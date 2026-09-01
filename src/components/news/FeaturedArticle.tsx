@@ -1,7 +1,7 @@
 import type { NewsArticle } from "../../types";
 import type { Page } from "../Header";
 
-import { formatNewsDate } from "../../utils/newsUtils";
+import { formatNewsDate, getArticleImages } from "../../utils/newsUtils";
 
 interface FeaturedArticleProps {
     article: NewsArticle;
@@ -15,6 +15,8 @@ export default function FeaturedArticle({
     article,
     onNavigate,
 }: FeaturedArticleProps) {
+    const heroImage = getArticleImages(article)[0] || "/assets/placeholderImage.png";
+
     return (
         <section className="px-6 lg:px-12 py-20">
             <div className="max-w-[1250px] mx-auto">
@@ -43,11 +45,13 @@ export default function FeaturedArticle({
                 >
                     <div className="relative h-full overflow-hidden bg-slate-200">
                         <img
-                            src={
-                                article.img_url ||
-                                "/assets/placeholderImage.png"
-                            }
+                            src={heroImage}
                             alt={article.title}
+                            onError={(event) => {
+                                event.currentTarget.onerror = null;
+                                event.currentTarget.src =
+                                    "/assets/placeholderImage.png";
+                            }}
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
 

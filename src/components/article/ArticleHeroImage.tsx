@@ -7,14 +7,13 @@ interface ArticleHeroImageProps {
 export default function ArticleHeroImage({
     article,
 }: ArticleHeroImageProps) {
+    const coverUrl = article.img_url || "/assets/placeholderImage.png";
+
     return (
-        <div className="max-w-[1080px] mx-auto px-6 lg:px-12 mb-16">
-            <div className="w-full aspect-[21/9] rounded-[1rem] overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
+        <div className="max-w-[1080px] mx-auto px-6 lg:px-12 mb-14">
+            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
                 <img
-                    src={
-                        article.img_url ||
-                        "/assets/placeholderImage.png"
-                    }
+                    src={coverUrl}
                     alt={article.title}
                     onError={(event) => {
                         event.currentTarget.onerror = null;

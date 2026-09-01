@@ -1,7 +1,7 @@
 import type { NewsArticle } from "../../types";
 import type { Page } from "../Header";
 
-import { formatNewsDate } from "../../utils/newsUtils";
+import { formatNewsDate, getArticleImages } from "../../utils/newsUtils";
 
 interface NewsCardProps {
     article: NewsArticle;
@@ -15,6 +15,8 @@ export default function NewsCard({
     article,
     onNavigate,
 }: NewsCardProps) {
+    const cardImage = getArticleImages(article)[0] || "/assets/placeholderImage.png";
+
     return (
         <article
             onClick={() =>
@@ -41,11 +43,13 @@ export default function NewsCard({
         >
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
                 <img
-                    src={
-                        article.img_url ||
-                        "/assets/placeholderImage.png"
-                    }
+                    src={cardImage}
                     alt={article.title}
+                    onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src =
+                            "/assets/placeholderImage.png";
+                    }}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
 

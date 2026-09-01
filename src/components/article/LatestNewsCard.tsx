@@ -3,6 +3,7 @@ import type { Page } from "../Header";
 
 import {
     formatNewsDate,
+    getArticleImages,
 } from "../../utils/newsUtils";
 
 interface LatestNewsCardProps {
@@ -18,6 +19,8 @@ export default function LatestNewsCard({
     article,
     onNavigate,
 }: LatestNewsCardProps) {
+    const cardImage = getArticleImages(article)[0] || "/assets/placeholderImage.png";
+
     return (
         <article
             onClick={() =>
@@ -30,10 +33,7 @@ export default function LatestNewsCard({
         >
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                 <img
-                    src={
-                        article.img_url ||
-                        "/assets/placeholderImage.png"
-                    }
+                    src={cardImage}
                     alt={article.title}
                     onError={(event) => {
                         event.currentTarget.onerror = null;
