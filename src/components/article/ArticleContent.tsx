@@ -65,7 +65,7 @@ export default function ArticleContent({
         const secondHalf = paragraphs.slice(splitIndex);
 
         return (
-            <div className="font-dmsans text-[16px] md:text-[17px] leading-8 text-slate-700 space-y-6 mt-6">
+            <div className="font-dmsans text-[16px] md:text-[17px] leading-8 text-slate-700 space-y-6 mt-10">
                 {firstHalf.map((para, i) => (
                     <p key={`p-1-${i}`} className="whitespace-pre-line">
                         {para}
@@ -87,7 +87,7 @@ export default function ArticleContent({
     };
 
     return (
-        <section className="max-w-[1080px] mx-auto px-6 lg:px-12 mb-24">
+        <section className="max-w-[1080px] mx-auto px-6 lg:px-12 mb-24 mt-8">
             <div className="max-w-none">
                 {renderContent()}
             </div>
