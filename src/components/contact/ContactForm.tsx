@@ -46,8 +46,7 @@ export default function ContactForm() {
         setErrorMessage("");
 
         try {
-            // 1. Save inquiry to Supabase
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from("contact_messages")
                 .insert({
                     first_name: form.first_name.trim(),
@@ -55,12 +54,14 @@ export default function ContactForm() {
                     email: form.email.trim(),
                     subject: form.subject.trim(),
                     message: form.message.trim(),
-                })
-                .select("id")
-                .single();
+                });
 
-            if (error || !data) {
-                console.error("Contact form error:", error);
+            if (error) {
+                console.error("CONTACT ERROR:", error);
+                console.error("MESSAGE:", error.message);
+                console.error("DETAILS:", error.details);
+                console.error("HINT:", error.hint);
+                console.error("CODE:", error.code);
 
                 setErrorMessage(
                     "We couldn't submit your message. Please try again."
@@ -69,39 +70,13 @@ export default function ContactForm() {
                 return;
             }
 
-            console.log("MESSAGE SAVED:", data);
-
-            // 2. Send email notification to office
-            const {
-                data: notificationData,
-                error: notificationError,
-            } = await supabase.functions.invoke(
-                "notify-contact-message",
-                {
-                    body: {
-                        messageId: data.id,
-                    },
-                }
-            );
-
-            console.log("EMAIL DATA:", notificationData);
-            console.log("EMAIL ERROR:", notificationError);
-
-            if (notificationError) {
-                console.error(
-                    "Email notification failed:",
-                    notificationError
-                );
-
-                // Do not show an error to the visitor because
-                // their inquiry was already saved successfully.
-            }
-
-            // 3. Clear form
             setForm(initialForm);
             setSuccess(true);
         } catch (error) {
-            console.error("Unexpected contact form error:", error);
+            console.error(
+                "Unexpected contact form error:",
+                error
+            );
 
             setErrorMessage(
                 "Something went wrong. Please try again."
