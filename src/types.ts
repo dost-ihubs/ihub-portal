@@ -41,14 +41,13 @@ export interface NewsArticle {
   date: string;
   author: string;
   region: string;
+  region_iso?: string | null;
   province: string;
   img_url: string;
-  img_urls?: string[] | string;
-  images?: string[] | string;
-  image_urls?: string[] | string;
-  image_url?: string;
+  img_caption?: string | null;
+  img_credit?: string | null;
+  images?: string[] | null;
   content: string;
-  created_at: string;
 }
 
 export interface Database {

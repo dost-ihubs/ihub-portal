@@ -58,8 +58,6 @@ export function getArticleGalleryImages(article?: NewsArticle | null): string[] 
 
     const candidates = [
         article.images,
-        article.img_urls,
-        article.image_urls,
     ];
 
     for (const cand of candidates) {
@@ -84,10 +82,7 @@ export function getArticleImages(article?: NewsArticle | null): string[] {
     // Check potential fields
     const candidates = [
         article.img_url,
-        article.image_url,
         article.images,
-        article.img_urls,
-        article.image_urls,
     ];
 
     for (const val of candidates) {
@@ -110,4 +105,4 @@ export function getArticleImages(article?: NewsArticle | null): string[] {
 
     return cleaned.length > 0 ? cleaned : ["/assets/placeholderImage.png"];
 }
-
+
