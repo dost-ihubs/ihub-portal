@@ -55,9 +55,6 @@ export default function NewsCard({
 
                 <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 font-dmsans text-[11px] font-semibold text-[#003F6A]">
                     {article.region}
-                    {article.province
-                        ? `, ${article.province}`
-                        : ""}
                 </span>
             </div>
 
@@ -96,10 +93,27 @@ export default function NewsCard({
                             </p>
                         </div>
                     </div>
-
-                    <span className="w-9 h-9 rounded-full bg-slate-50 text-[#003F6A] flex items-center justify-center group-hover:bg-[#003F6A] group-hover:text-white transition-colors">
-                        →
-                    </span>
+                    <div
+                        className="
+                            w-8
+                            h-8
+                            rounded-full
+                            bg-slate-50
+                            flex
+                            items-center
+                            justify-center
+                            text-slate-400
+                            transition-all
+                            duration-300
+                            group-hover:bg-sky-500
+                            group-hover:text-white
+                            group-hover:scale-110
+                        "
+                    >
+                        <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                            →
+                        </span>
+                    </div>
                 </div>
             </div>
         </article>

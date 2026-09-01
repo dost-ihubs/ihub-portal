@@ -6,14 +6,26 @@ interface FindPageProps {
   sidebarComponent?: React.ReactNode;
 }
 
-export default function FindPage({ mapComponent, sidebarComponent }: FindPageProps) {
+export default function FindPage({
+  mapComponent,
+  sidebarComponent,
+}: FindPageProps) {
   return (
     <div className="flex flex-col bg-slate-50 overflow-x-hidden relative min-h-screen">
       <div className="flex-1 pt-32 pb-24 px-6 lg:px-12 flex flex-col items-center">
-        <span className="inline-block px-4 py-1.5 bg-sky-50 text-slate-800 border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
+
+        <span className="inline-block px-4 py-1.5 bg-sky-50 text-[#003F6A] border border-sky-100 rounded-full text-sm font-dmsans font-medium mb-6">
           Directory
         </span>
-        <h2 className="text-4xl lg:text-5xl font-medium text-[#002E6A] font-poppins tracking-tight text-center mb-12">Find an iHub near you</h2>
+
+        <h2 className="text-4xl lg:text-5xl font-medium text-[#002E6A] font-poppins tracking-tight text-center mb-4">
+          Find an iHub near you
+        </h2>
+
+        <p className="max-w-xl text-center font-dmsans text-[16px] text-slate-500 leading-relaxed mb-12">
+          Explore the nationwide network of DOST Innovation Hubs and find the
+          nearest iHub in your region or province.
+        </p>
 
         {/* Map Container */}
         <div className="w-full max-w-[1400px] h-[700px] bg-white rounded-[2rem] shadow-xl overflow-hidden border border-slate-200 flex flex-col lg:grid lg:grid-cols-[1fr_380px] relative">
@@ -21,6 +33,7 @@ export default function FindPage({ mapComponent, sidebarComponent }: FindPagePro
           {sidebarComponent}
         </div>
       </div>
+
       <Footer />
     </div>
   );

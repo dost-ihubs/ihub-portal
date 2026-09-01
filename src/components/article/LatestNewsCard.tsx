@@ -15,6 +15,8 @@ interface LatestNewsCardProps {
     ) => void;
 }
 
+
+
 export default function LatestNewsCard({
     article,
     onNavigate,
@@ -46,10 +48,8 @@ export default function LatestNewsCard({
                 <div className="absolute top-4 left-4">
                     <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-[#003F6A] rounded-full text-xs font-dmsans font-semibold shadow-sm">
                         {article.region}
-                        {article.province
-                            ? `, ${article.province}`
-                            : ""}
                     </span>
+
                 </div>
             </div>
 
@@ -72,8 +72,26 @@ export default function LatestNewsCard({
                         </span>
                     </div>
 
-                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-sky-50 group-hover:text-sky-500 transition-colors">
-                        →
+                    <div
+                        className="
+                            w-8
+                            h-8
+                            rounded-full
+                            bg-slate-50
+                            flex
+                            items-center
+                            justify-center
+                            text-slate-400
+                            transition-all
+                            duration-300
+                            group-hover:bg-sky-500
+                            group-hover:text-white
+                            group-hover:scale-110
+                        "
+                    >
+                        <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                            →
+                        </span>
                     </div>
                 </div>
             </div>
