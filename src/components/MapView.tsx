@@ -188,6 +188,7 @@ export default function MapView({
   // Provinces layer: only present while a region is selected
   useEffect(() => {
     const map = mapRef.current;
+
     if (!map) return;
 
     if (provincesLayerRef.current) {
@@ -197,20 +198,100 @@ export default function MapView({
 
     if (!activeRegion || !provincesGeoJsonData) return;
 
-    const layer = L.geoJSON(provincesGeoJsonData as any, {
-      filter: (feature) => provinceToRegionMap[feature.properties?.ISO] === activeRegion,
-      style: (feature) => styleProvinceFeature(feature?.properties, activeProvince),
-      onEachFeature: (feature, layer) => {
-        const props = feature.properties as CustomFeatureProperties;
-        layer.on({
-          click: () => onProvinceSelect(props.ISO),
-        });
-      },
-    }).addTo(map);
+    const layer = L.geoJSON(
+      provincesGeoJsonData as any,
+      {
+        filter: (feature) =>
+          provinceToRegionMap[
+          feature.properties?.ISO
+          ] === activeRegion,
 
-    provincesLayerRef.current = layer;
+        style: (feature) =>
+          styleProvinceFeature(
+            feature?.properties,
+            activeProvince
+          ),
+
+        onEachFeature: (
+          feature,
+          provinceLayer
+        ) => {
+          const props =
+            feature.properties as CustomFeatureProperties;
+
+          provinceLayer.on({
+            mouseover: (e) => {
+              const target =
+                e.target as L.Path;
+
+              target.setStyle({
+                fillColor: "#4d9400ff",
+                fillOpacity: 1,
+                color: "#ffffff",
+                weight: 2,
+              });
+
+              target.bringToFront();
+
+              const hubInProvince =
+                database.ihubs.find(
+                  (hub) =>
+                    hub.province_iso ===
+                    props.ISO
+                );
+
+              if (hubInProvince) {
+                markersMapRef.current[
+                  hubInProvince.id
+                ]?.openPopup();
+              }
+            },
+
+            mouseout: (e) => {
+              const target =
+                e.target as L.Path;
+
+              target.setStyle(
+                styleProvinceFeature(
+                  props,
+                  activeProvince
+                )
+              );
+
+              const hubInProvince =
+                database.ihubs.find(
+                  (hub) =>
+                    hub.province_iso ===
+                    props.ISO
+                );
+
+              if (hubInProvince) {
+                markersMapRef.current[
+                  hubInProvince.id
+                ]?.closePopup();
+              }
+            },
+
+            click: () => {
+              onProvinceSelect(props.ISO);
+            },
+          });
+        },
+      }
+    ).addTo(map);
+
+    provincesLayerRef.current =
+      layer;
+
+    // Keep province polygons above the region layer
+    layer.bringToFront();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provincesGeoJsonData, activeRegion, activeProvince]);
+  }, [
+    provincesGeoJsonData,
+    activeRegion,
+    activeProvince,
+  ]);
 
   // Pins: re-render whenever the filtered hub set changes
   useEffect(() => {
@@ -243,12 +324,123 @@ export default function MapView({
         .on("click", () => onHubClick(hub));
 
       marker.bindPopup(
-        `<div style="font-family: var(--font-body); padding: 4px;">
-          <h4 style="font-family: var(--font-title); font-size: 14px; font-weight: 800; color: #002f6c; margin-bottom: 2px;">${hub.name}</h4>
-          <p style="font-size: 11px; font-weight: 600; color: #0072bc; margin-bottom: 4px;">${hub.type}</p>
-          <p style="font-size: 11px; color: #64748b; line-height: 1.3;">${hub.institution}</p>
-        </div>`,
-        { offset: L.point(0, -20) }
+        `
+          <div style="
+            font-family: var(--font-body);
+            width: 240px;
+            padding: 4px 2px;
+          ">
+          <div style="
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          ">
+              <div style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 100px;
+                padding: 4px 10px;
+                border-radius: 999px;
+                background: #e0f2fe;
+                color: #0369a1;
+                font-size: 10px;
+                font-weight: 600;
+                font-family: 'DM Sans', sans-serif
+              ">
+                ${hub.type}
+              </div>
+
+              <h4 style="
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                line-height: 1.35;
+                font-weight: 600;
+                color: #002f6c;
+                margin-bottom: 12px;
+              ">
+                ${hub.name}
+              </h4>
+            </div>
+
+            ${hub.institution
+          ? `
+                    <div>
+                      <div style="
+                      font-family: 'DM Sans', sans-serif;
+                        font-size: 9px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: .06em;
+                        color: #94a3b8;
+                        margin-bottom: 2px;
+                      ">
+                        Institution
+                      </div>
+
+                      <div style="
+                        font-size: 11px;
+                        line-height: 1.45;
+                        color: #475569;
+                        font-weight: 500;
+                        font-family: 'DM Sans', sans-serif
+                      ">
+                        ${hub.institution}
+                      </div>
+                    </div>
+                  </div>
+                `
+          : ""
+        }
+
+            ${hub.address
+          ? `
+
+                    <div>
+                      <div style="
+                        font-size: 9px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: .06em;
+                        color: #94a3b8;
+                        margin-bottom: 2px;
+                        font-family: 'DM Sans', sans-serif
+                      ">
+                        Location
+                      </div>
+
+                      <div style="
+                        font-size: 11px;
+                        line-height: 1.45;
+                        color: #475569;
+                        font-family: 'DM Sans', sans-serif
+                      ">
+                        ${hub.address}
+                      </div>
+                    </div>
+                  </div>
+                `
+          : ""
+        }
+
+            <div style="
+              margin-top: 2px;
+              padding-top: 10px;
+              border-top: 1px solid #e2e8f0;
+              font-size: 10px;
+              color: #94a3b8;
+              font-family: 'DM Sans', sans-serif
+            ">
+              Click the marker or directory card for more details.
+            </div>
+          </div>
+        </div>
+        `,
+        {
+          offset: L.point(0, -20),
+          maxWidth: 270,
+          minWidth: 240,
+        }
       );
 
       markersMapRef.current[hub.id] = marker;

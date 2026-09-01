@@ -18,7 +18,7 @@ export default function NewsSection({
         (article) => ({
             id: article.id,
             title: article.title,
-            tag: `${article.region}, ${article.province}`,
+            tag: article.region,
             author: article.author,
 
             date: new Date(

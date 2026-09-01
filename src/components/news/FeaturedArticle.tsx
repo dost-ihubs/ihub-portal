@@ -58,9 +58,6 @@ export default function FeaturedArticle({
                         <div className="absolute top-6 left-6">
                             <span className="inline-flex bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-dmsans font-semibold text-[#003F6A] shadow-sm">
                                 {article.region}
-                                {article.province
-                                    ? `, ${article.province}`
-                                    : ""}
                             </span>
                         </div>
                     </div>
