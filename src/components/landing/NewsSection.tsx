@@ -1,5 +1,6 @@
 import type { NewsArticle } from "../../types";
 import type { Page } from "../Header";
+import { getArticleImages } from "../../utils/newsUtils";
 
 interface NewsSectionProps {
     news?: NewsArticle[];
@@ -34,7 +35,7 @@ export default function NewsSection({
             readTime: article.read_time,
 
             img:
-                article.img_url ||
+                getArticleImages(article)[0] ||
                 "/assets/placeholderImage.png",
         })
     );
