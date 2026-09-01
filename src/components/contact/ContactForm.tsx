@@ -254,7 +254,7 @@ function FormField({
           w-full
           px-4
           py-3.5
-          rounded-xl
+          rounded-full
           bg-white
           border
           border-slate-200
