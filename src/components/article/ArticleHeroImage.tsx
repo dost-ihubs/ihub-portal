@@ -7,22 +7,71 @@ interface ArticleHeroImageProps {
 export default function ArticleHeroImage({
     article,
 }: ArticleHeroImageProps) {
-    const coverUrl = article.img_url || "/assets/placeholderImage.png";
+    if (!article.img_url) return null;
+
+    const hasCaption =
+        Boolean(article.img_caption?.trim()) ||
+        Boolean(article.img_credit?.trim());
 
     return (
-        <div className="max-w-[1080px] mx-auto px-6 lg:px-12 mb-14">
-            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
-                <img
-                    src={coverUrl}
-                    alt={article.title}
-                    onError={(event) => {
-                        event.currentTarget.onerror = null;
-                        event.currentTarget.src =
-                            "/assets/placeholderImage.png";
-                    }}
-                    className="w-full h-full object-cover"
-                />
+        <section className="px-6 lg:px-8">
+            <div className="max-w-[1100px] mx-auto">
+                <figure>
+                    {/* Cover Image */}
+                    <div className="overflow-hidden rounded-[28px] bg-slate-100">
+                        <img
+                            src={article.img_url}
+                            alt={
+                                article.img_caption ||
+                                article.title ||
+                                "Article cover image"
+                            }
+                            className="
+                w-full
+                aspect-[16/9]
+                object-cover
+              "
+                            onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src =
+                                    "/assets/placeholderImage.png";
+                            }}
+                        />
+                    </div>
+
+                    {/* Caption + Photo Credit */}
+                    {hasCaption && (
+                        <figcaption className="mt-3 px-1">
+                            <p
+                                className="
+                  font-dmsans
+                  text-[13px]
+                  leading-5
+                  text-slate-500
+                "
+                            >
+                                {article.img_caption}
+
+                                {article.img_caption &&
+                                    article.img_credit && (
+                                        <span className="text-slate-400">
+                                            {" "}—{" "}
+                                        </span>
+                                    )}
+
+                                {article.img_credit && (
+                                    <span className="text-slate-400">
+                                        Photo by{" "}
+                                        <span className="font-medium">
+                                            {article.img_credit}
+                                        </span>
+                                    </span>
+                                )}
+                            </p>
+                        </figcaption>
+                    )}
+                </figure>
             </div>
-        </div>
+        </section>
     );
 }
